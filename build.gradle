@@ -1,0 +1,29 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.0.5.RELEASE'
+}
+
+apply plugin: 'io.spring.dependency-management'
+
+group 'com.kite.playground'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    jcenter()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-webflux")
+
+    //Lombok
+    compileOnly "org.projectlombok:lombok:1.16.16"
+    testCompileOnly "org.projectlombok:lombok:1.16.16"
+
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+
+
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+}
