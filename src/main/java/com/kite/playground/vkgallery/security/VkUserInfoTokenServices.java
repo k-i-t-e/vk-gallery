@@ -10,6 +10,8 @@ import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoT
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2RestOperations;
 import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.resource.BaseOAuth2ProtectedResourceDetails;
@@ -46,6 +48,10 @@ public class VkUserInfoTokenServices extends UserInfoTokenServices {
 
     @Override
     public OAuth2Authentication loadAuthentication(String accessToken) throws AuthenticationException, InvalidTokenException {
+        /*SecurityContext context = SecurityContextHolder.getContext();
+        if (context != null && context.getAuthentication() != null && context.getAuthentication() instanceof OAuth2Authentication) {
+            return (OAuth2Authentication) context.getAuthentication();
+        }*/
         for (int i = 0; i < 5; i++) {
             Map<String, Object> map = getMap(this.userInfoEndpointUrl, accessToken);
             if (map.containsKey("error")) {

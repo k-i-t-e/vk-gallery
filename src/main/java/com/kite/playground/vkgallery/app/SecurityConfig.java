@@ -1,20 +1,17 @@
 package com.kite.playground.vkgallery.app;
 
 import java.util.Arrays;
-import java.util.List;
 import javax.servlet.Filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.security.oauth2.client.EnableOAuth2Sso;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.AuthoritiesExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 import org.springframework.boot.autoconfigure.security.oauth2.resource.ResourceServerProperties;
-import org.springframework.boot.autoconfigure.security.oauth2.resource.UserInfoTokenServices;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.annotation.Order;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -23,23 +20,16 @@ import org.springframework.security.oauth2.client.OAuth2RestTemplate;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter;
 import org.springframework.security.oauth2.client.filter.OAuth2ClientContextFilter;
 import org.springframework.security.oauth2.client.token.AccessTokenProviderChain;
-import org.springframework.security.oauth2.client.token.grant.client.ClientCredentialsAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeAccessTokenProvider;
 import org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails;
-import org.springframework.security.oauth2.client.token.grant.implicit.ImplicitAccessTokenProvider;
-import org.springframework.security.oauth2.client.token.grant.password.ResourceOwnerPasswordAccessTokenProvider;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.kite.playground.vkgallery.security.AuthoritiesExtractorImpl;
-import com.kite.playground.vkgallery.security.VkAuthorizationCodeAccessTokenProvider;
-import com.kite.playground.vkgallery.security.VkPrincipalExtractor;
-import com.kite.playground.vkgallery.security.VkUserInfoTokenServices;
+import com.kite.playground.vkgallery.security.*;
 
 @Configuration
 //@EnableOAuth2Sso
 @EnableOAuth2Client
-@Order(99)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private OAuth2ClientContext oAuth2ClientContext;
@@ -49,24 +39,32 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .antMatcher("/**")
                 .authorizeRequests()
-                .antMatchers("/images", "/login**", "/webjars/**", "/error**")
-                .permitAll()
+                    .antMatchers("/", "/login**", "/webjars/**", "/error**")
+                    .permitAll()
                 .anyRequest()
-                .authenticated()
+                    .authenticated()
         .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED);
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+    }
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(authenticationProvider());
+    }
+
+    @Bean
+    public VkAuthenticationProvider authenticationProvider() {
+        return new VkAuthenticationProvider();
     }
 
     @Bean
     public Filter ssoFilter() {
-        OAuth2ClientAuthenticationProcessingFilter vkFilter = new OAuth2ClientAuthenticationProcessingFilter("/");
+        OAuth2ClientAuthenticationProcessingFilter vkFilter = new OAuth2ClientAuthenticationProcessingFilter("/login");
         OAuth2RestTemplate vkTemplate = new OAuth2RestTemplate(vk(), oAuth2ClientContext);
         vkTemplate.setAccessTokenProvider(new AccessTokenProviderChain(Arrays.asList(
-                vkTokenProvider(),
-                new ImplicitAccessTokenProvider(),
-                new ResourceOwnerPasswordAccessTokenProvider(),
-                new ClientCredentialsAccessTokenProvider())));
+                vkTokenProvider())));
+
         vkFilter.setRestTemplate(vkTemplate);
 
         VkUserInfoTokenServices tokenServices = new VkUserInfoTokenServices(vkResource().getUserInfoUri(), vk().getClientId());
