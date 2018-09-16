@@ -15,15 +15,29 @@ repositories {
 }
 
 dependencies {
-    compile("org.springframework.boot:spring-boot-starter-webflux")
+    configurations {
+        all*.exclude module : 'spring-boot-starter-logging'
+    }
+    //compile("org.springframework.boot:spring-boot-starter-webflux")
+    compile("org.springframework.boot:spring-boot-starter-web")
 
-    //Lombok
-    compileOnly "org.projectlombok:lombok:1.16.16"
-    testCompileOnly "org.projectlombok:lombok:1.16.16"
+    // Security
+    compile("org.springframework.boot:spring-boot-starter-security")
+    compile group: 'org.springframework.security.oauth.boot', name: 'spring-security-oauth2-autoconfigure', version: '2.0.5.RELEASE'
+
+    // Lombok
+    compileOnly "org.projectlombok:lombok:1.18.2"
+    testCompileOnly "org.projectlombok:lombok:1.18.2"
 
     compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
     compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
 
+    // Logging
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.24'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-slf4j-impl', version: '2.8'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.8'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.8'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-jcl', version: '2.8'
 
     testCompile("org.springframework.boot:spring-boot-starter-test")
 }
