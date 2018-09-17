@@ -1,6 +1,6 @@
 package com.kite.playground.vkgallery.entity;
 
-import java.time.LocalDateTime;
+import java.util.Map;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -12,6 +12,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Image {
-    private String ulr;
-    private LocalDateTime createdDate;
+    private Long postId;
+    private Map<String, String> urls;
 }
