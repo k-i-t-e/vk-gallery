@@ -1,6 +1,7 @@
 package com.kite.playground.vkgallery.app;
 
 import java.util.Arrays;
+import java.util.Collections;
 import javax.servlet.Filter;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,10 +26,13 @@ import org.springframework.security.oauth2.client.token.grant.code.Authorization
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableOAuth2Client;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.kite.playground.vkgallery.security.*;
+import com.kite.playground.vkgallery.security.AuthoritiesExtractorImpl;
+import com.kite.playground.vkgallery.security.VkAuthenticationProvider;
+import com.kite.playground.vkgallery.security.VkAuthorizationCodeAccessTokenProvider;
+import com.kite.playground.vkgallery.security.VkPrincipalExtractor;
+import com.kite.playground.vkgallery.security.VkUserInfoTokenServices;
 
 @Configuration
-//@EnableOAuth2Sso
 @EnableOAuth2Client
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
@@ -54,7 +58,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public VkAuthenticationProvider authenticationProvider() {
+    public VkAuthenticationProvider authenticationProvider() { // TODO: remove
         return new VkAuthenticationProvider();
     }
 
@@ -62,8 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public Filter ssoFilter() {
         OAuth2ClientAuthenticationProcessingFilter vkFilter = new OAuth2ClientAuthenticationProcessingFilter("/login");
         OAuth2RestTemplate vkTemplate = new OAuth2RestTemplate(vk(), oAuth2ClientContext);
-        vkTemplate.setAccessTokenProvider(new AccessTokenProviderChain(Arrays.asList(
-                vkTokenProvider())));
+        vkTemplate.setAccessTokenProvider(new AccessTokenProviderChain(Collections.singletonList(vkTokenProvider())));
 
         vkFilter.setRestTemplate(vkTemplate);
 

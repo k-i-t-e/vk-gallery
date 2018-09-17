@@ -1,21 +1,30 @@
 package com.kite.playground.vkgallery.security;
 
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.boot.autoconfigure.security.oauth2.resource.PrincipalExtractor;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kite.playground.vkgallery.entity.VkUser;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class VkPrincipalExtractor implements PrincipalExtractor {
     private static final String AUTH_SERVICE = "VK";
+    private static final String RESPONSE_KEY = "response";
+
+    private ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
-    public Object extractPrincipal(Map<String, Object> map) {
+    public VkUser extractPrincipal(Map<String, Object> map) {
         log.debug("credential map: {}", map);
         map.put("_authServiceType", AUTH_SERVICE);
 
-        return new VkUser(map);
+        if (!map.containsKey(RESPONSE_KEY) || !(map.get(RESPONSE_KEY) instanceof List)) {
+            return null;
+        }
+
+        return objectMapper.convertValue(((List) map.get(RESPONSE_KEY)).get(0), VkUser.class);
     }
 }

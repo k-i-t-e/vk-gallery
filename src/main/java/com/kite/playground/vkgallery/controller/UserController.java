@@ -1,20 +1,28 @@
 package com.kite.playground.vkgallery.controller;
 
-import java.security.Principal;
-
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.kite.playground.vkgallery.entity.VkUser;
+import com.kite.playground.vkgallery.manager.AuthManager;
+
 @RestController
 public class UserController {
+    private AuthManager authManager;
+
+    @Autowired
+    public UserController(AuthManager authManager) {
+        this.authManager = authManager;
+    }
+
     @GetMapping("/user/current")
-    public Principal getUser() {
-        SecurityContext context = SecurityContextHolder.getContext();
-        if (context != null) {
-            return context.getAuthentication();
-        }
-        return null;
+    public VkUser getUser() {
+        return authManager.getCurrentUser();
+    }
+
+    @GetMapping("/user/token")
+    public String getToken() {
+        return authManager.getAccessToken();
     }
 }

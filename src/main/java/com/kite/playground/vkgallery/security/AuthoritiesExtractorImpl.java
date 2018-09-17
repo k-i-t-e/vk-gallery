@@ -11,6 +11,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 public class AuthoritiesExtractorImpl implements AuthoritiesExtractor {
     @Override
     public List<GrantedAuthority> extractAuthorities(Map<String, Object> map) {
-        return Collections.singletonList(new SimpleGrantedAuthority("USER"));
+        return Collections.singletonList(new SimpleGrantedAuthority("ROLE_USER"));
     }
 }
