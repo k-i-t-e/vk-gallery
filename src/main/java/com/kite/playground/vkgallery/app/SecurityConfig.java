@@ -1,6 +1,5 @@
 package com.kite.playground.vkgallery.app;
 
-import java.util.Arrays;
 import java.util.Collections;
 import javax.servlet.Filter;
 
@@ -12,7 +11,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -27,7 +25,6 @@ import org.springframework.security.oauth2.config.annotation.web.configuration.E
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
 import com.kite.playground.vkgallery.security.AuthoritiesExtractorImpl;
-import com.kite.playground.vkgallery.security.VkAuthenticationProvider;
 import com.kite.playground.vkgallery.security.VkAuthorizationCodeAccessTokenProvider;
 import com.kite.playground.vkgallery.security.VkPrincipalExtractor;
 import com.kite.playground.vkgallery.security.VkUserInfoTokenServices;
@@ -43,23 +40,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .antMatcher("/**")
                 .authorizeRequests()
-                    .antMatchers("/", "/login**", "/webjars/**", "/error**")
+                    .antMatchers("/", "/login**", "/webjars/**", "/error**", "/swagger-ui.html")
                     .permitAll()
                 .anyRequest()
                     .authenticated()
         .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
-    }
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(authenticationProvider());
-    }
-
-    @Bean
-    public VkAuthenticationProvider authenticationProvider() { // TODO: remove
-        return new VkAuthenticationProvider();
     }
 
     @Bean

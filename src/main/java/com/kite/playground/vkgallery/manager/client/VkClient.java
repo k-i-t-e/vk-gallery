@@ -44,18 +44,19 @@ public class VkClient {
 
             return posts.stream()
                 .filter(p -> p.getAttachments() != null)
-                .map(p -> new ImmutablePair<>(p, p.getAttachments()))
+                .flatMap(p -> p.getAttachments().stream()
+                    .filter(a -> a.getType() == WallpostAttachmentType.PHOTO)
+                    .map(a -> new ImmutablePair<>(p, a)))
                 .map(pair -> {
-                    Map<String, String> urls = pair.getRight().stream()
-                        .filter(a -> a.getType() == WallpostAttachmentType.PHOTO)
-                        .flatMap(a -> Stream.of(new ImmutablePair<>("75", a.getPhoto().getPhoto75()),
-                                            new ImmutablePair<>("130", a.getPhoto().getPhoto130()),
-                                            new ImmutablePair<>("604", a.getPhoto().getPhoto604()),
-                                            new ImmutablePair<>("807", a.getPhoto().getPhoto807()),
-                                            new ImmutablePair<>("1280", a.getPhoto().getPhoto1280()),
-                                            new ImmutablePair<>("2560", a.getPhoto().getPhoto2560())))
-                        .collect(Collectors.toMap(ImmutablePair::getLeft,
-                                                  p -> p.getRight() == null ? "" : p.getRight()));
+                    Map<String, String> urls = Stream.of(
+                        new ImmutablePair<>("75", pair.getRight().getPhoto().getPhoto75()),
+                        new ImmutablePair<>("130", pair.getRight().getPhoto().getPhoto130()),
+                        new ImmutablePair<>("604", pair.getRight().getPhoto().getPhoto604()),
+                        new ImmutablePair<>("807", pair.getRight().getPhoto().getPhoto807()),
+                        new ImmutablePair<>("1280", pair.getRight().getPhoto().getPhoto1280()),
+                        new ImmutablePair<>("2560", pair.getRight().getPhoto().getPhoto2560())
+                    )
+                    .collect(Collectors.toMap(ImmutablePair::getLeft, p -> p.getRight() == null ? "" : p.getRight()));
 
                     return new Image(pair.getLeft().getId().longValue(), urls);
                 })
