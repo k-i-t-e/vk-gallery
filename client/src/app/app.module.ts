@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 
 import { AppComponent } from './app.component';
 import { GalleryModule } from "./gallery/gallery.module";
+import {AppRoutingModule} from "./app-routing.module";
 
 @NgModule({
   declarations: [
@@ -10,7 +11,8 @@ import { GalleryModule } from "./gallery/gallery.module";
   ],
   imports: [
     BrowserModule,
-    GalleryModule
+    GalleryModule,
+    AppRoutingModule
   ],
   providers: [],
   bootstrap: [AppComponent]
