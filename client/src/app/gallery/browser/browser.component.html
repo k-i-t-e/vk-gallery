@@ -3,7 +3,9 @@
     <div class="col"></div>
     <div class="col-7 main">
       <div class="row" *ngFor="let i of getRange(images.length / 4)">
-        <img class="col img" *ngFor="let j of [0, 1, 2, 3]" [src]="getThumbnail(i * 4 + j)"/>
+        <div class="col img" *ngFor="let j of [0, 1, 2, 3]">
+          <img *ngIf="getThumbnail(i * 4 + j)" [src]="getThumbnail(i * 4 + j)">
+        </div>
       </div>
     </div>
 
