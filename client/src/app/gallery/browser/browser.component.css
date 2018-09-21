@@ -1,0 +1,21 @@
+.main-container {
+  margin-top: 10px;
+}
+
+.main {
+  background-color: white;
+  border: 1px solid #dddddd;
+}
+
+.img-placeholder {
+  width: 100px;
+  height: 100px;
+  background-color: gray;
+  margin: 2px;
+}
+
+.img {
+  width: 100px;
+  height: 100px;
+  margin: 2px;
+}

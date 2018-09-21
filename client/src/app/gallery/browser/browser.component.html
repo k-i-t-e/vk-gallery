@@ -1,0 +1,12 @@
+<div class="container-fluid main-container">
+  <div class="row align-items-center">
+    <div class="col"></div>
+    <div class="col-7 main">
+      <div class="row" *ngFor="let i of getRange(images.length / 4)">
+        <img class="col img" *ngFor="let j of [0, 1, 2, 3]" [src]="getThumbnail(i * 4 + j)"/>
+      </div>
+    </div>
+
+    <div class="col"></div>
+  </div>
+</div>
