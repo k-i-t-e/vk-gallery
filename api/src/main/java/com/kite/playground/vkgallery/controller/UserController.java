@@ -8,7 +8,7 @@ import com.kite.playground.vkgallery.entity.VkUser;
 import com.kite.playground.vkgallery.manager.AuthManager;
 
 @RestController
-public class UserController {
+public class UserController extends AbstractRestController {
     private AuthManager authManager;
 
     @Autowired

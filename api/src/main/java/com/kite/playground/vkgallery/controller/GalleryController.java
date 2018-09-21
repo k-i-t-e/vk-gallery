@@ -12,8 +12,7 @@ import com.kite.playground.vkgallery.entity.Image;
 import com.kite.playground.vkgallery.manager.GalleryManager;
 
 @RestController
-@RequestMapping("images")
-public class GalleryController {
+public class GalleryController extends AbstractRestController {
     private GalleryManager galleryManager;
 
     @Autowired
@@ -21,7 +20,7 @@ public class GalleryController {
         this.galleryManager = galleryManager;
     }
 
-    @GetMapping("{groupId}")
+    @GetMapping("images/{groupId}")
     public List<Image> getImages(@PathVariable String groupId) {
         return galleryManager.getImages(groupId);
     }

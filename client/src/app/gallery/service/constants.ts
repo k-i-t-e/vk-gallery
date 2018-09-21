@@ -1,4 +1,4 @@
-const API_ROOT_URL = "http://localhost:9000";
+const API_ROOT_URL = "/api";
 
 export {
   API_ROOT_URL
