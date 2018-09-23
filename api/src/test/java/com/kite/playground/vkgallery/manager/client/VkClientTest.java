@@ -69,7 +69,7 @@ public class VkClientTest {
         when(vkApiClient.wall()).thenReturn(wallMock);
 
         ForkJoinPool pool = new ForkJoinPool(10);
-        IntStream.range(0, 10).forEach(i -> pool.submit(() -> vkClient.loadImages("test")));
+        IntStream.range(0, 10).forEach(i -> pool.submit(() -> vkClient.loadImages("test", 0 ,0)));
 
         Thread.sleep(TEST_REFRESH_PERIOD / 2);
         Assert.assertEquals(TEST_MAX_ACTIONS_PER_PERIOD, longAdder.intValue());

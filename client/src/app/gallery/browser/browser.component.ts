@@ -12,7 +12,7 @@ export class BrowserComponent implements OnInit {
   constructor(private galleryService: GalleryService) { }
 
   ngOnInit() {
-    this.galleryService.getImages("habr", 0).subscribe(res => this.images = this.images.concat(res))
+    this.galleryService.getImages("habr", 0).subscribe(res => this.images = this.images.concat(res.images))
   }
 
   getThumbnail(index: number): string {
