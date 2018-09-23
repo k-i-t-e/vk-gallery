@@ -2,11 +2,16 @@ package com.kite.playground.vkgallery.manager.client;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
+import java.util.concurrent.Semaphore;
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.kite.playground.vkgallery.entity.Image;
@@ -20,16 +25,33 @@ import com.vk.api.sdk.httpclient.HttpTransportClient;
 import com.vk.api.sdk.objects.wall.WallPostFull;
 import com.vk.api.sdk.objects.wall.WallpostAttachmentType;
 
+/**
+ * A service class, that wraps library VkApiClient to perform required API operations.
+ * Ensures request limits per second won't be exceeded by using a semaphore and a timer.
+ */
 @Service
 public class VkClient {
     private final AuthManager authManager;
     private VkApiClient client;
 
+    private Timer requestTimer = new Timer(true);
+    private Semaphore requestSemaphore;
+
     @Autowired
-    public VkClient(AuthManager authManager) {
+    public VkClient(AuthManager authManager,
+                    VkApiClient client,
+                    @Value("${vk.api.refresh.period:1000}") long refreshPeriod,
+                    @Value("${vk.api.max.requests.per.period:5}") int maxRequests) {
         this.authManager = authManager;
-        TransportClient transportClient = HttpTransportClient.getInstance();
-        client = new VkApiClient(transportClient);
+        this.client = client;
+        requestSemaphore = new Semaphore(maxRequests);
+
+        requestTimer.scheduleAtFixedRate(new TimerTask() {
+            @Override
+            public void run() {
+                requestSemaphore.release(maxRequests);
+            }
+        }, refreshPeriod, refreshPeriod);
     }
 
     public List<Image> loadImages(String groupId) {
@@ -37,6 +59,8 @@ public class VkClient {
                                             authManager.getAccessToken());
 
         try {
+            requestSemaphore.acquire();
+
             List<WallPostFull> posts = client.wall().get(userActor)
                 .domain(groupId)
                 .count(100)
@@ -61,7 +85,7 @@ public class VkClient {
                     return new Image(pair.getLeft().getId().longValue(), urls);
                 })
                 .collect(Collectors.toList());
-        } catch (ApiException | ClientException e) {
+        } catch (ApiException | ClientException | InterruptedException e) {
             throw new RuntimeException(e);
         }
     }
