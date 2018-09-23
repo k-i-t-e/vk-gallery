@@ -112,7 +112,8 @@ public class VkClient {
                             new ImmutablePair<>("1280", pair.getRight().getPhoto().getPhoto1280()),
                             new ImmutablePair<>("2560", pair.getRight().getPhoto().getPhoto2560())
                     )
-                            .collect(Collectors.toMap(ImmutablePair::getLeft, p -> p.getRight() == null ? "" : p.getRight()));
+                            .collect(Collectors.toMap(ImmutablePair::getLeft,
+                                    p -> p.getRight() == null ? "" : p.getRight()));
 
                     return new Image(pair.getLeft().getId().longValue(), urls);
                 })

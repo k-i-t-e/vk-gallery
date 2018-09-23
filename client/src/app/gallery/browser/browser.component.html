@@ -2,6 +2,17 @@
   <div class="row no-gutters align-items-center">
     <div class="col"></div>
     <div class="col-7 main gallery-container">
+      <div class="row justify-content-end m-1 border-bottom no-gutters">
+        <div class="col-5 search-form">
+          <form class="form-inline m-2">
+            <div class="form-group mx-sm-3">
+              <input type="text" class="form-control form-control-sm" placeholder="Group ID">
+            </div>
+            <button class="btn btn-outline-secondary btn-sm">Browse</button>
+          </form>
+        </div>
+      </div>
+
       <div class="row no-gutters" *ngFor="let i of getRange(images.length / 4)">
         <div class="col img" *ngFor="let j of [0, 1, 2, 3]">
           <img *ngIf="getThumbnail(i * 4 + j)" [src]="getThumbnail(i * 4 + j)">
