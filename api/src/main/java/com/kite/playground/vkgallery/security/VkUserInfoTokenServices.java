@@ -21,7 +21,7 @@ import org.springframework.security.oauth2.common.exceptions.InvalidTokenExcepti
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.security.oauth2.provider.OAuth2Request;
 
-public class VkUserInfoTokenServices extends UserInfoTokenServices {
+public class VkUserInfoTokenServices extends UserInfoTokenServices { // TODO: remove? fix to use client?
     private final String userInfoEndpointUrl;
     private final String clientId;
     private OAuth2RestOperations restTemplate;

@@ -15,6 +15,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -32,7 +33,9 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
+import com.kite.playground.vkgallery.dao.VkUserRepository;
 import com.kite.playground.vkgallery.security.AuthoritiesExtractorImpl;
+import com.kite.playground.vkgallery.security.VkAuthenticationProvider;
 import com.kite.playground.vkgallery.security.VkAuthorizationCodeAccessTokenProvider;
 import com.kite.playground.vkgallery.security.VkPrincipalExtractor;
 import com.kite.playground.vkgallery.security.VkUserInfoTokenServices;
@@ -42,6 +45,14 @@ import com.kite.playground.vkgallery.security.VkUserInfoTokenServices;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private OAuth2ClientContext oAuth2ClientContext;
+
+    @Autowired
+    private VkUserRepository vkUserRepository;
+
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(vkAuthenticationProvider());
+    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -117,5 +128,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         registration.setFilter(filter);
         registration.setOrder(-100);
         return registration;
+    }
+
+    @Bean
+    public VkAuthenticationProvider vkAuthenticationProvider() {
+        return new VkAuthenticationProvider(vkUserRepository);
     }
 }
