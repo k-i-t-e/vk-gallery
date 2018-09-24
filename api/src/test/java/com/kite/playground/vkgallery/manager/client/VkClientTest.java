@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
 import java.util.Collections;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ForkJoinPool;
 import java.util.concurrent.atomic.LongAdder;
 import java.util.stream.IntStream;
@@ -52,14 +51,15 @@ public class VkClientTest {
     }
 
     @Test
-    public void testOnly5ActionsPerSecond() throws InterruptedException, ClientException, ApiException {
+    public void testOnlyNActionsPerPeriod() throws InterruptedException, ClientException, ApiException {
         Wall wallMock = mock(Wall.class);
         WallGetQuery mockQuery = mock(WallGetQuery.class);
         GetResponse mockResponse = mock(GetResponse.class);
 
         when(wallMock.get(Mockito.any(UserActor.class))).thenReturn(mockQuery);
-        when(mockQuery.count(any())).thenReturn(mockQuery);
         when(mockQuery.domain(any())).thenReturn(mockQuery);
+        when(mockQuery.count(any())).thenReturn(mockQuery);
+        when(mockQuery.offset(any())).thenReturn(mockQuery);
         when(mockQuery.execute()).thenReturn(mockResponse);
         when(mockResponse.getItems()).then(invocation -> {
             longAdder.increment();
