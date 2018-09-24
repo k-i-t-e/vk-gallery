@@ -3,7 +3,6 @@ package com.kite.playground.vkgallery.app;
 import java.io.IOException;
 import java.util.Collections;
 import javax.servlet.Filter;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -15,7 +14,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -35,7 +33,6 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 
 import com.kite.playground.vkgallery.dao.VkUserRepository;
 import com.kite.playground.vkgallery.security.AuthoritiesExtractorImpl;
-import com.kite.playground.vkgallery.security.VkAuthenticationProvider;
 import com.kite.playground.vkgallery.security.VkAuthorizationCodeAccessTokenProvider;
 import com.kite.playground.vkgallery.security.VkPrincipalExtractor;
 import com.kite.playground.vkgallery.security.VkUserInfoTokenServices;
@@ -48,11 +45,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private VkUserRepository vkUserRepository;
-
-    @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.authenticationProvider(vkAuthenticationProvider());
-    }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -97,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PrincipalExtractor vkPrincipleExtractor() {
-        return new VkPrincipalExtractor();
+        return new VkPrincipalExtractor(vkUserRepository);
     }
 
     @Bean
@@ -128,10 +120,5 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         registration.setFilter(filter);
         registration.setOrder(-100);
         return registration;
-    }
-
-    @Bean
-    public VkAuthenticationProvider vkAuthenticationProvider() {
-        return new VkAuthenticationProvider(vkUserRepository);
     }
 }
