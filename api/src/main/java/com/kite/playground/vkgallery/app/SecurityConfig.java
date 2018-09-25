@@ -30,6 +30,7 @@ import org.springframework.security.web.DefaultRedirectStrategy;
 import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 
 import com.kite.playground.vkgallery.manager.VkUserManager;
 import com.kite.playground.vkgallery.security.AuthoritiesExtractorImpl;
@@ -58,7 +59,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                     .authenticated()
         .and().addFilterBefore(ssoFilter(), BasicAuthenticationFilter.class)
                 .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS);
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+        .and().logout().logoutSuccessUrl("/").permitAll()
+        .and().csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse());
     }
 
     @Bean
