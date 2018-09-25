@@ -1,0 +1,35 @@
+<div class="row m-1 border-bottom align-items-center no-gutters">
+
+  <div class="col">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination custom-pagination">
+        <li class="page-item" [class.disabled]="page == 0" (click)="selectPreviousPage()">
+          <a class="page-link" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+            <span class="sr-only">Previous</span>
+          </a>
+        </li>
+        <li *ngFor="let i of appUtils.getRange(totalPages)" class="page-item" [class.active]="i === page" (click)="selectPage(i)">
+          <a class="page-link" href="#">{{i + 1}}</a>
+        </li>
+
+        <li class="page-item">
+          <a class="page-link" href="#" aria-label="Next" (click)="selectPage(page + 1)">
+            <span aria-hidden="true">&raquo;</span>
+            <span class="sr-only">Next</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+
+  <div class="col-5"></div>
+  <div class="col search-form">
+    <form class="form-inline mb-2 mt-1">
+      <div class="form-group mx-sm-3">
+        <input type="text" class="form-control form-control-sm" placeholder="Group ID">
+      </div>
+      <button class="btn btn-outline-secondary btn-sm">Browse</button>
+    </form>
+  </div>
+</div>

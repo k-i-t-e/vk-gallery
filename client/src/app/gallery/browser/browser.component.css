@@ -8,8 +8,8 @@
 }
 
 .img {
-  width: 130px;
-  height: 120px;
+  min-width: 250px;
+  height: 190px;
   padding: 2px;
 }
 
@@ -20,9 +20,4 @@
 
 .gallery-container {
   padding: 2px;
-}
-
-.search-form {
-  padding-left: 95px;
-
 }

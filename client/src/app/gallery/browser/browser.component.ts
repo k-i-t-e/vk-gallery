@@ -9,6 +9,7 @@ import {Image} from "../entity/Image";
 })
 export class BrowserComponent implements OnInit {
   images: Array<Image> = [];
+  totalPages: number = 1;
   constructor(private galleryService: GalleryService) { }
 
   ngOnInit() {
@@ -17,14 +18,24 @@ export class BrowserComponent implements OnInit {
 
   getThumbnail(index: number): string {
     if (index < this.images.length) {
-      return this.images[index].urls["130"];
+      return this.images[index].urls["604"];
     }
     return null;
   }
 
   getRange(n: number) {
     let arr = Array.from(Array(Math.ceil(n)).keys());
-    console.log(arr)
     return arr
+  }
+
+  onPageSelected(n: number) {
+    this.galleryService.getImages("habr", n * 100)
+      .subscribe(res => {
+        this.images = res.images;
+        console.log(n)
+        if (n + 1 > this.totalPages) {
+          this.totalPages = n + 1
+        }
+      })
   }
 }
