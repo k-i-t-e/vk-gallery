@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {GalleryService} from "../service/gallery/gallery.service";
 import {Image} from "../entity/Image";
+import {AppUtils} from "../utils/app-utils.service";
 
 @Component({
   selector: 'app-browser',
@@ -14,10 +15,10 @@ export class BrowserComponent implements OnInit {
   page = 0;
   groupId: string = "habr";
 
-  constructor(private galleryService: GalleryService) { }
+  constructor(private galleryService: GalleryService, public appUtils: AppUtils) { }
 
   ngOnInit() {
-    this.galleryService.getImages(this.groupId, 0).subscribe(res => this.images = this.images.concat(res.images))
+    //this.galleryService.getImages(this.groupId, 0).subscribe(res => this.images = this.images.concat(res.images))
   }
 
   getThumbnail(index: number): string {
@@ -25,11 +26,6 @@ export class BrowserComponent implements OnInit {
       return this.images[index].urls["604"];
     }
     return null;
-  }
-
-  getRange(n: number) {
-    let arr = Array.from(Array(Math.ceil(n)).keys());
-    return arr
   }
 
   onPageSelected(n: number) {
