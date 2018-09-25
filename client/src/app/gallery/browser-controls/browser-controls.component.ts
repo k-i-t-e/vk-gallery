@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AppUtils} from "../utils/app-utils.service";
+import {browser} from "protractor";
 
 @Component({
   selector: 'app-browser-controls',
@@ -10,9 +11,11 @@ export class BrowserControlsComponent implements OnInit {
 
   constructor(public appUtils: AppUtils) { }
 
-  public page = 0;
-  @Input() public totalPages = 1;
+  page = 0;
+  @Input() totalPages = 1;
   @Output() pageSelected = new EventEmitter<Number>();
+  groupId: string;
+  @Output() browse = new EventEmitter<String>();
 
   ngOnInit() {
   }
@@ -26,6 +29,12 @@ export class BrowserControlsComponent implements OnInit {
   public selectPreviousPage() {
     if (this.page > 0) {
       this.selectPage(this.page - 1)
+    }
+  }
+
+  public browseClick() {
+    if (this.groupId && this.groupId.length > 0) {
+      this.browse.emit(this.groupId);
     }
   }
 }

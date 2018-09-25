@@ -27,9 +27,9 @@
   <div class="col search-form">
     <form class="form-inline mb-2 mt-1">
       <div class="form-group mx-sm-3">
-        <input type="text" class="form-control form-control-sm" placeholder="Group ID">
+        <input type="text" name="groupId" [(ngModel)]="groupId" class="form-control form-control-sm" placeholder="Group ID">
       </div>
-      <button class="btn btn-outline-secondary btn-sm">Browse</button>
+      <button class="btn btn-outline-secondary btn-sm" (click)="browseClick()">Browse</button>
     </form>
   </div>
 </div>

@@ -9,11 +9,15 @@ import {Image} from "../entity/Image";
 })
 export class BrowserComponent implements OnInit {
   images: Array<Image> = [];
+
   totalPages: number = 1;
+  page = 0;
+  groupId: string = "habr";
+
   constructor(private galleryService: GalleryService) { }
 
   ngOnInit() {
-    this.galleryService.getImages("habr", 0).subscribe(res => this.images = this.images.concat(res.images))
+    this.galleryService.getImages(this.groupId, 0).subscribe(res => this.images = this.images.concat(res.images))
   }
 
   getThumbnail(index: number): string {
@@ -29,7 +33,8 @@ export class BrowserComponent implements OnInit {
   }
 
   onPageSelected(n: number) {
-    this.galleryService.getImages("habr", n * 100)
+    this.page = n;
+    this.galleryService.getImages(this.groupId, n * 100)
       .subscribe(res => {
         this.images = res.images;
         console.log(n)
@@ -37,5 +42,12 @@ export class BrowserComponent implements OnInit {
           this.totalPages = n + 1
         }
       })
+  }
+
+  onBrowse(groupId: string) {
+    this.page = 0;
+    this.totalPages = 1;
+    this.groupId = groupId;
+    this.onPageSelected(0);
   }
 }

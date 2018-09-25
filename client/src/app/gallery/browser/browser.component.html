@@ -3,7 +3,7 @@
     <div class="col"></div>
     <div class="col-7 main gallery-container">
 
-      <app-browser-controls (pageSelected)="onPageSelected($event)" [totalPages]="totalPages"></app-browser-controls>
+      <app-browser-controls (pageSelected)="onPageSelected($event)" [totalPages]="totalPages" (browse)="onBrowse($event)"></app-browser-controls>
 
       <div class="row no-gutters" *ngFor="let i of getRange(images.length / 4)">
         <div class="col img" *ngFor="let j of [0, 1, 2, 3]">
