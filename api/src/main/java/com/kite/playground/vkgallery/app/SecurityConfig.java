@@ -31,7 +31,7 @@ import org.springframework.security.web.RedirectStrategy;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.kite.playground.vkgallery.dao.VkUserRepository;
+import com.kite.playground.vkgallery.manager.VkUserManager;
 import com.kite.playground.vkgallery.security.AuthoritiesExtractorImpl;
 import com.kite.playground.vkgallery.security.VkAuthorizationCodeAccessTokenProvider;
 import com.kite.playground.vkgallery.security.VkPrincipalExtractor;
@@ -44,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private OAuth2ClientContext oAuth2ClientContext;
 
     @Autowired
-    private VkUserRepository vkUserRepository;
+    private VkUserManager vkUserManager;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -89,7 +89,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     public PrincipalExtractor vkPrincipleExtractor() {
-        return new VkPrincipalExtractor(vkUserRepository);
+        return new VkPrincipalExtractor(vkUserManager);
     }
 
     @Bean
