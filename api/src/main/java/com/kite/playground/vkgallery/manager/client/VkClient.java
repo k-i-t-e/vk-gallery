@@ -6,6 +6,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import java.util.concurrent.Semaphore;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.kite.playground.vkgallery.entity.Group;
 import com.kite.playground.vkgallery.entity.Image;
 import com.kite.playground.vkgallery.entity.vo.GalleryResult;
 import com.kite.playground.vkgallery.manager.AuthManager;
@@ -21,8 +23,11 @@ import com.vk.api.sdk.client.VkApiClient;
 import com.vk.api.sdk.client.actors.UserActor;
 import com.vk.api.sdk.exceptions.ApiException;
 import com.vk.api.sdk.exceptions.ClientException;
+import com.vk.api.sdk.objects.groups.GroupFull;
+import com.vk.api.sdk.objects.groups.responses.GetExtendedResponse;
 import com.vk.api.sdk.objects.wall.WallPostFull;
 import com.vk.api.sdk.objects.wall.WallpostAttachmentType;
+import com.vk.api.sdk.queries.groups.GroupsGetFilter;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -32,7 +37,8 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @Slf4j
 public class VkClient {
-    private static final int MAX_ALLOWED_COUNT = 100;
+    private static final int MAX_ALLOWED_POSTS_COUNT = 100;
+    private static final int MAX_ALLOWED_GROUPS_COUNT = 1000;
     private final AuthManager authManager;
     private final VkApiClient client;
 
@@ -66,7 +72,7 @@ public class VkClient {
 
             int nextPageOffset = offset;
             while (imagesAndOffset.getLeft().size() < pageSize) {
-                Pair<List<Image>, Integer> portion = loadImagePortion(groupId, userActor, MAX_ALLOWED_COUNT,
+                Pair<List<Image>, Integer> portion = loadImagePortion(groupId, userActor, MAX_ALLOWED_POSTS_COUNT,
                         offset + imagesAndOffset.getRight());
                 images.addAll(portion.getLeft());
                 nextPageOffset += portion.getRight();
@@ -120,5 +126,82 @@ public class VkClient {
                 .collect(Collectors.toList());
 
         return new ImmutablePair<>(images, posts.size());
+    }
+
+    public Group getGroup(String groupId) {
+        UserActor userActor = new UserActor(authManager.getCurrentUser().getId().intValue(),
+                                            authManager.getAccessToken());
+
+        try {
+            requestSemaphore.acquire();
+            List<GroupFull> groups = client.groups().getById(userActor).groupId(groupId).execute();
+            return groups.stream()
+                .findFirst()
+                .map(vkGroup -> {
+                    Group group = new Group();
+
+                    group.setId(vkGroup.getId().longValue());
+                    group.setDomain(vkGroup.getScreenName());
+                    group.setName(vkGroup.getName());
+                    group.setAlias(vkGroup.getName());
+
+                    return group;
+                })
+                .orElseThrow(() -> new IllegalArgumentException("Group not found"));
+        } catch (InterruptedException | ApiException | ClientException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public List<Group> getUsersGroups() {
+        UserActor userActor = new UserActor(authManager.getCurrentUser().getId().intValue(),
+                                            authManager.getAccessToken());
+
+        try {
+            requestSemaphore.acquire();
+            GetExtendedResponse groupResponse = getGroupPortion(userActor, 0);
+
+            List<Group> groups = groupResponse.getItems().stream()
+                .map(this::convertGroup).collect(Collectors.toList());
+
+            if (groupResponse.getCount() > MAX_ALLOWED_GROUPS_COUNT) {
+                groups.addAll(IntStream.range(1, (int) Math.ceil(groupResponse.getCount() / MAX_ALLOWED_GROUPS_COUNT) + 1)
+                    .mapToObj(i -> getGroupPortion(userActor, MAX_ALLOWED_GROUPS_COUNT * i))
+                    .flatMap(resp -> resp.getItems().stream().map(this::convertGroup))
+                    .collect(Collectors.toList()));
+            }
+
+            return groups;
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private Group convertGroup(GroupFull vkGroup) {
+        Group group = new Group();
+
+        group.setId(vkGroup.getId().longValue());
+        group.setName(vkGroup.getName());
+        group.setAlias(vkGroup.getName());
+        group.setDomain(vkGroup.getScreenName());
+
+        return group;
+    }
+
+    private GetExtendedResponse getGroupPortion(UserActor userActor, int offset) {
+        try {
+            return client.groups().getExtended(userActor)
+                .filter(GroupsGetFilter.ADMIN,
+                        GroupsGetFilter.EDITOR,
+                        GroupsGetFilter.MODER,
+                        GroupsGetFilter.EVENTS,
+                        GroupsGetFilter.GROUPS,
+                        GroupsGetFilter.PUBLICS)
+                .count(MAX_ALLOWED_GROUPS_COUNT)
+                .offset(offset)
+                .execute();
+        } catch (ApiException | ClientException e) {
+            throw new RuntimeException(e);
+        }
     }
 }
