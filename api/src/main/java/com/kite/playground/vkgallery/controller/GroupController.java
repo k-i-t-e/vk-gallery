@@ -32,20 +32,14 @@ public class GroupController extends AbstractRestController {
         return groupManager.loadGroups();
     }
 
-    @GetMapping("group/{id}")
-    public Group getGroup(@PathVariable long id) {
-        return null;
-    }
-
-
-    @PutMapping("group/{id}")
-    public Group updateGroup(@RequestBody Group group,
-                             @PathVariable long id) {
-        return null;
+    @PutMapping("group")
+    public Group updateGroup(@RequestBody Group group) {
+        return groupManager.updateGroup(group);
     }
 
     @DeleteMapping("group/{id}")
     public Boolean deleteGroup(@PathVariable long id) {
-        return false;
+        groupManager.deleteGroup(id);
+        return true;
     }
 }
