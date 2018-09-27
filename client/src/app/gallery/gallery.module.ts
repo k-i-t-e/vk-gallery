@@ -8,12 +8,14 @@ import {BrowserComponent} from './browser/browser.component';
 import {BrowserControlsComponent} from './browser-controls/browser-controls.component';
 import {FormsModule} from "@angular/forms";
 import { GroupsComponent } from './groups/groups.component';
+import {AppRoutingModule} from "../app-routing.module";
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
-    FormsModule
+    FormsModule,
+    AppRoutingModule
   ],
   declarations: [ LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent, GroupsComponent ],
   exports: [ LoginComponent, GalleryComponent, GroupsComponent ]
