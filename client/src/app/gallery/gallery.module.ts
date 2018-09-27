@@ -7,6 +7,7 @@ import {ToolbarComponent} from './toolbar/toolbar.component';
 import {BrowserComponent} from './browser/browser.component';
 import {BrowserControlsComponent} from './browser-controls/browser-controls.component';
 import {FormsModule} from "@angular/forms";
+import { GroupsComponent } from './groups/groups.component';
 
 @NgModule({
   imports: [
@@ -14,7 +15,7 @@ import {FormsModule} from "@angular/forms";
     HttpClientModule,
     FormsModule
   ],
-  declarations: [ LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent ],
-  exports: [ LoginComponent, GalleryComponent ]
+  declarations: [ LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent, GroupsComponent ],
+  exports: [ LoginComponent, GalleryComponent, GroupsComponent ]
 })
 export class GalleryModule { }
