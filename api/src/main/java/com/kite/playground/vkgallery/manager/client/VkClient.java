@@ -57,6 +57,7 @@ public class VkClient {
         requestTimer.scheduleAtFixedRate(new TimerTask() {
             @Override
             public void run() {
+                requestSemaphore.drainPermits();
                 requestSemaphore.release(maxRequests);
             }
         }, refreshPeriod, refreshPeriod);

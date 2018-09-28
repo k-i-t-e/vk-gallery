@@ -28,7 +28,7 @@ import com.vk.api.sdk.queries.wall.WallGetQuery;
 
 public class VkClientTest {
     private static final String TEST_TOKEN = "TEST_TOKEN";
-    private static final long TEST_REFRESH_PERIOD = 2000L;
+    private static final long TEST_REFRESH_PERIOD = 1000L;
     private static final int TEST_MAX_ACTIONS_PER_PERIOD = 5;
 
     @Mock
