@@ -1,3 +1,23 @@
-<p>
-  groups works!
-</p>
+<div class="container-fluid main-container">
+  <div class="row no-gutters align-items-center">
+    <div class="col"></div>
+    <div class="col-5 main gallery-container">
+
+      <div class="row no-gutters" *ngFor="let group of favourites">
+        <div class="col-1 text-center">
+          <img class="rounded-circle" [src]="group.imageUrl">
+        </div>
+        <div class="col group-alias"><span>{{group.alias}}</span></div>
+      </div>
+
+      <div class="row no-gutters mt-2" *ngFor="let group of allGroups">
+        <div class="col-1 text-center">
+            <img class="rounded-circle" [src]="group.imageUrl">
+        </div>
+        <div class="col group-alias"><span>{{group.alias}}</span></div>
+      </div>
+
+    </div>
+    <div class="col"></div>
+  </div>
+</div>

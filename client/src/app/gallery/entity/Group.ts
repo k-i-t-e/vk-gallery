@@ -8,4 +8,5 @@ export class Group {
   domain: string;
   name: string;
   alias: string;
+  imageUrl?: string
 }

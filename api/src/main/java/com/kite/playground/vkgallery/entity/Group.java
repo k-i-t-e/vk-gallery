@@ -18,4 +18,5 @@ public class Group {
     @Column(name = "group_alias")
     private String alias;
     private Long createdBy;
+    private transient String imageUrl;
 }

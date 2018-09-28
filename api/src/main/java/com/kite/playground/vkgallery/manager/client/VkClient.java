@@ -185,6 +185,7 @@ public class VkClient {
         group.setName(vkGroup.getName());
         group.setAlias(vkGroup.getName());
         group.setDomain(vkGroup.getScreenName());
+        group.setImageUrl(vkGroup.getPhoto100());
 
         return group;
     }
