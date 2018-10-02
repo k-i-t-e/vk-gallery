@@ -16,10 +16,14 @@ img {
   padding: 2px;
 }
 
-.group-alias {
+.center-vertical {
   padding-top: 10px;
 }
 
 .group-row {
   margin-top: 5;
+}
+
+.fav-btn-fav {
+  color: gold;
 }

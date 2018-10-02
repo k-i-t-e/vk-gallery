@@ -7,14 +7,20 @@
         <div class="col-1 text-center">
           <img class="rounded-circle" [src]="group.imageUrl">
         </div>
-        <div class="col group-alias"><span>{{group.alias}}</span></div>
+        <div class="col center-vertical"><span>{{group.alias}}</span></div>
+        <div class="col-1 center-vertical">
+          <i class="material-icons fav-btn-fav">star</i>
+        </div>
       </div>
 
       <div class="row no-gutters mt-2" *ngFor="let group of allGroups">
         <div class="col-1 text-center">
             <img class="rounded-circle" [src]="group.imageUrl">
         </div>
-        <div class="col group-alias"><span>{{group.alias}}</span></div>
+        <div class="col center-vertical"><span>{{group.alias}}</span></div>
+        <div class="col-1 center-vertical">
+          <i class="material-icons">star_border</i>
+        </div>
       </div>
 
     </div>
