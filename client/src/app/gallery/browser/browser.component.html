@@ -14,7 +14,7 @@
       </div>
       <div class="row no-gutters" *ngFor="let i of appUtils.getRange(images.length / 4)">
         <div class="col img" *ngFor="let j of [0, 1, 2, 3]">
-          <img *ngIf="getThumbnail(i * 4 + j)" [src]="getThumbnail(i * 4 + j)">
+          <img class="img-thumbnail" *ngIf="getThumbnail(i * 4 + j)" [src]="getThumbnail(i * 4 + j)">
         </div>
       </div>
     </div>
