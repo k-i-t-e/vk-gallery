@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {GalleryService} from "../service/gallery/gallery.service";
 import {Image} from "../entity/Image";
 import {AppUtils} from "../utils/app-utils.service";
+import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
+import {ImageModalComponent} from "../image-modal/image-modal.component";
 
 @Component({
   selector: 'app-browser',
@@ -15,10 +17,9 @@ export class BrowserComponent implements OnInit {
   page = 0;
   groupId: string;
 
-  constructor(private galleryService: GalleryService, public appUtils: AppUtils) { }
+  constructor(private galleryService: GalleryService, public appUtils: AppUtils, private modalService: NgbModal) { }
 
   ngOnInit() {
-    //this.galleryService.getImages(this.groupId, 0).subscribe(res => this.images = this.images.concat(res.images))
   }
 
   getThumbnail(index: number): string {
@@ -26,6 +27,19 @@ export class BrowserComponent implements OnInit {
       return this.images[index].urls["604"];
     }
     return null;
+  }
+
+  getLargeImage(index: number): string {
+    let largest: string;
+    console.log(this.images[index].urls) //TODO: fix
+    for (let url of this.images[index].urls.entries()) {
+      if (url.values()) {
+        largest = url.values().next().value
+      } else {
+        return largest
+      }
+    }
+    return largest
   }
 
   onPageSelected(n: number) {
@@ -48,6 +62,15 @@ export class BrowserComponent implements OnInit {
       this.totalPages = 1;
       this.groupId = groupId;
       this.onPageSelected(0);
+    }
+  }
+
+  openModal(index: number) {
+    if (index < this.images.length) {
+      const modal = this.modalService.open(ImageModalComponent);
+      let url = this.getLargeImage(index)
+      console.log(url)
+      modal.componentInstance.imageUrl = url
     }
   }
 }

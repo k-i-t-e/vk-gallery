@@ -9,15 +9,19 @@ import {BrowserControlsComponent} from './browser-controls/browser-controls.comp
 import {FormsModule} from "@angular/forms";
 import { GroupsComponent } from './groups/groups.component';
 import {AppRoutingModule} from "../app-routing.module";
+import { ImageModalComponent } from './image-modal/image-modal.component';
+import {NgbModalModule} from "@ng-bootstrap/ng-bootstrap";
 
 @NgModule({
   imports: [
     CommonModule,
     HttpClientModule,
     FormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    NgbModalModule
   ],
-  declarations: [ LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent, GroupsComponent ],
-  exports: [ LoginComponent, GalleryComponent, GroupsComponent ]
+  declarations: [ LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent, GroupsComponent, ImageModalComponent ],
+  exports: [ LoginComponent, GalleryComponent, GroupsComponent ],
+  entryComponents: [ ImageModalComponent ]
 })
 export class GalleryModule { }
