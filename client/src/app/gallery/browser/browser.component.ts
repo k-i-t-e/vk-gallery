@@ -13,7 +13,7 @@ export class BrowserComponent implements OnInit {
 
   totalPages: number = 1;
   page = 0;
-  groupId: string = "habr";
+  groupId: string;
 
   constructor(private galleryService: GalleryService, public appUtils: AppUtils) { }
 
@@ -29,21 +29,25 @@ export class BrowserComponent implements OnInit {
   }
 
   onPageSelected(n: number) {
-    this.page = n;
-    this.galleryService.getImages(this.groupId, n * 100)
-      .subscribe(res => {
-        this.images = res.images;
-        console.log(n)
-        if (n + 1 > this.totalPages) {
-          this.totalPages = n + 1
-        }
-      })
+    if (this.groupId) {
+      this.page = n;
+      this.galleryService.getImages(this.groupId, n * 100)
+        .subscribe(res => {
+          this.images = res.images;
+          console.log(n);
+          if (n + 1 > this.totalPages) {
+            this.totalPages = n + 1
+          }
+        })
+    }
   }
 
   onBrowse(groupId: string) {
-    this.page = 0;
-    this.totalPages = 1;
-    this.groupId = groupId;
-    this.onPageSelected(0);
+    if (groupId) {
+      this.page = 0;
+      this.totalPages = 1;
+      this.groupId = groupId;
+      this.onPageSelected(0);
+    }
   }
 }

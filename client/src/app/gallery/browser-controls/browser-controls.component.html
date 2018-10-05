@@ -1,6 +1,6 @@
 <div class="row m-1 border-bottom align-items-center no-gutters">
 
-  <div class="col">
+  <div class="col-auto">
     <nav aria-label="Page navigation example">
       <ul class="pagination custom-pagination">
         <li class="page-item" [class.disabled]="page == 0" (click)="selectPreviousPage()">
@@ -36,8 +36,16 @@
     </nav>
   </div>
 
-  <div class="col-5"></div>
-  <div class="col search-form">
+  <div class="col-auto">
+    <form class="form-inline mb-2 mt-1">
+      <div class="form-group mx-sm-3">
+        <input type="text" name="page" [value]="page + 1" #pageCtrl class="form-control form-control-sm page-input">
+      </div>
+      <button class="btn btn-primary btn-sm" (click)="selectPage(pageCtrl.value*1 - 1)">Go</button>
+    </form>
+  </div>
+
+  <div class="col-4 search-form ml-auto">
     <form class="form-inline mb-2 mt-1">
       <div class="form-group mx-sm-3">
         <input type="text" name="groupId" [(ngModel)]="groupId" class="form-control form-control-sm" placeholder="Group ID">

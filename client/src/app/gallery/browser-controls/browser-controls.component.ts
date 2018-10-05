@@ -11,7 +11,7 @@ export class BrowserControlsComponent implements OnInit {
 
   constructor(public appUtils: AppUtils) { }
 
-  // Pagination fields
+  // Pagination fields TODO: move to a separate component
   page = 0;
   @Input() totalPages = 1;
   @Output() pageSelected = new EventEmitter<Number>();
@@ -28,9 +28,11 @@ export class BrowserControlsComponent implements OnInit {
   }
 
   public selectPage(n: number) {
-    console.log(n);
-    this.page = n;
-    this.pageSelected.emit(n);
+    if (this.groupId) {
+      console.log(n);
+      this.page = n;
+      this.pageSelected.emit(n);
+    }
   }
 
   public selectPreviousPage() {

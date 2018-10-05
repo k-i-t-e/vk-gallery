@@ -2,6 +2,11 @@
   padding-left: 95px;
 }
 
+.page-input {
+  width: 3em;
+  text-align: right;
+}
+
 .custom-pagination {
   margin-bottom: 8px;
   margin-top: 8px;
