@@ -11,9 +11,16 @@ export class BrowserControlsComponent implements OnInit {
 
   constructor(public appUtils: AppUtils) { }
 
+  // Pagination fields
   page = 0;
   @Input() totalPages = 1;
   @Output() pageSelected = new EventEmitter<Number>();
+  showSpaceBefore = false;
+  showFirst = false;
+  showSpaceAfter = false;
+  showLast = false;
+
+  // Search form fields
   groupId: string;
   @Output() browse = new EventEmitter<String>();
 
@@ -36,5 +43,15 @@ export class BrowserControlsComponent implements OnInit {
     if (this.groupId && this.groupId.length > 0) {
       this.browse.emit(this.groupId);
     }
+  }
+
+  public getMiddleRange() {
+    const start = Math.max(0, this.page - 2);
+    const end = Math.min(this.totalPages, this.page + 3);
+    this.showFirst = start > 0;
+    this.showSpaceBefore = start > 1;
+    this.showLast = end < this.totalPages;
+    this.showSpaceAfter = end < this.totalPages - 1;
+    return this.appUtils.getRange(end, start)
   }
 }

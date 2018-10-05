@@ -9,8 +9,21 @@
             <span class="sr-only">Previous</span>
           </a>
         </li>
-        <li *ngFor="let i of appUtils.getRange(totalPages)" class="page-item" [class.active]="i === page" (click)="selectPage(i)">
+
+        <li *ngIf="showFirst" class="page-item" (click)="selectPage(0)">
+          <a class="page-link" href="#">1</a>
+        </li>
+        <li *ngIf="showSpaceBefore" class="page-item">
+          <a class="page-link" href="#">...</a>
+        </li>
+        <li *ngFor="let i of getMiddleRange()" class="page-item" [class.active]="i === page" (click)="selectPage(i)">
           <a class="page-link" href="#">{{i + 1}}</a>
+        </li>
+        <li *ngIf="showSpaceAfter" class="page-item">
+          <a class="page-link" href="#">...</a>
+        </li>
+        <li *ngIf="showLast" class="page-item" (click)="selectPage(totalPages - 1)">
+          <a class="page-link" href="#">{{totalPages}}</a>
         </li>
 
         <li class="page-item">

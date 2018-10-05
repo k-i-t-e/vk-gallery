@@ -4,9 +4,9 @@ import {Injectable} from "@angular/core";
   providedIn: 'root'
 })
 export class AppUtils {
-  getRange(n: number) {
-    let arr = Array.from(Array(Math.ceil(n)).keys());
-    return arr
+  getRange(end: number, start: number = 0) {
+    let arr = Array.from(Array(Math.ceil(end - start)).keys());
+    return arr.map(v => v + start)
   }
 
   getCookie(name) {
