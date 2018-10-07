@@ -25,7 +25,8 @@
             "styles": [
               "node_modules/bootstrap/dist/css/bootstrap.min.css",
               "src/styles.css",
-              "node_modules/material-design-icons/iconfont/material-icons.css"
+              "node_modules/material-design-icons/iconfont/material-icons.css",
+              "node_modules/ngx-lightbox/lightbox.css"
             ],
             "scripts": []
           },

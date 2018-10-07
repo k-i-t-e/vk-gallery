@@ -2,8 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {GalleryService} from '../service/gallery/gallery.service';
 import {Image} from '../entity/Image';
 import {AppUtils} from '../utils/app-utils.service';
-import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
-import {ImageModalComponent} from '../image-modal/image-modal.component';
+import {IAlbum, Lightbox} from 'ngx-lightbox';
 
 @Component({
   selector: 'app-browser',
@@ -17,7 +16,7 @@ export class BrowserComponent implements OnInit {
   page = 0;
   groupId: string;
 
-  constructor(private galleryService: GalleryService, public appUtils: AppUtils, private modalService: NgbModal) { }
+  constructor(private galleryService: GalleryService, public appUtils: AppUtils, private lightbox: Lightbox) { }
 
   ngOnInit() {
   }
@@ -70,11 +69,11 @@ export class BrowserComponent implements OnInit {
 
   openModal(index: number) {
     if (index < this.images.length) {
-      const modal = this.modalService.open(ImageModalComponent, {
-        centered: true,
-        size: 'lg',
-      });
-      modal.componentInstance.imageUrl = this.getLargeImage(index)
+      const album: IAlbum = {
+        src: this.getLargeImage(index),
+        thumb: this.getThumbnail(index)
+      };
+      this.lightbox.open([album], 0)
     }
   }
 }
