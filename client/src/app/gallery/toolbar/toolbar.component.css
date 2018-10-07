@@ -1,3 +1,7 @@
 .not-so-high-z {
   z-index: 999 !important;
 }
+
+.tab-link {
+  cursor: pointer;
+}

@@ -2,11 +2,11 @@
   <span class="navbar-brand">VK Gallery</span>
   <div class="collapse navbar-collapse">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="/#/gallery">Browse</a>
+      <li class="nav-item" [class.active]="isActive('GALLERY')">
+        <a class="nav-link tab-link" (click)="tabSelect('GALLERY')">Browse</a>
       </li>
-      <li class="nav-item">
-        <a class="nav-link" href="/#/groups">My Galleries</a>
+      <li class="nav-item" [class.active]="isActive('GROUPS')">
+        <a class="nav-link tab-link" (click)="tabSelect('GROUPS')">My Galleries</a>
       </li>
     </ul>
     <ul class="navbar-nav my-2">
