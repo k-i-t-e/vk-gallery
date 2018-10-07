@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import {GalleryService} from "../service/gallery/gallery.service";
-import {Image} from "../entity/Image";
-import {AppUtils} from "../utils/app-utils.service";
-import {NgbModal} from "@ng-bootstrap/ng-bootstrap";
-import {ImageModalComponent} from "../image-modal/image-modal.component";
+import {Component, OnInit} from '@angular/core';
+import {GalleryService} from '../service/gallery/gallery.service';
+import {Image} from '../entity/Image';
+import {AppUtils} from '../utils/app-utils.service';
+import {NgbModal} from '@ng-bootstrap/ng-bootstrap';
+import {ImageModalComponent} from '../image-modal/image-modal.component';
 
 @Component({
   selector: 'app-browser',
@@ -13,7 +13,7 @@ import {ImageModalComponent} from "../image-modal/image-modal.component";
 export class BrowserComponent implements OnInit {
   images: Array<Image> = [];
 
-  totalPages: number = 1;
+  totalPages = 1;
   page = 0;
   groupId: string;
 
@@ -24,22 +24,25 @@ export class BrowserComponent implements OnInit {
 
   getThumbnail(index: number): string {
     if (index < this.images.length) {
-      return this.images[index].urls["604"];
+      return this.images[index].urls['604'];
     }
     return null;
   }
 
   getLargeImage(index: number): string {
     let largest: string;
-    console.log(this.images[index].urls) //TODO: fix
-    for (let url of this.images[index].urls.entries()) {
-      if (url.values()) {
-        largest = url.values().next().value
+    const entries = new Map(Object.entries(this.images[index].urls));
+
+    for (const url of entries.keys()) {
+      if (entries.get(url)) {
+        largest = url
       } else {
-        return largest
+        return entries.get(largest)
       }
+      console.log(largest)
     }
-    return largest
+
+    return entries.get(largest)
   }
 
   onPageSelected(n: number) {
@@ -67,10 +70,11 @@ export class BrowserComponent implements OnInit {
 
   openModal(index: number) {
     if (index < this.images.length) {
-      const modal = this.modalService.open(ImageModalComponent);
-      let url = this.getLargeImage(index)
-      console.log(url)
-      modal.componentInstance.imageUrl = url
+      const modal = this.modalService.open(ImageModalComponent, {
+        centered: true,
+        size: 'lg',
+      });
+      modal.componentInstance.imageUrl = this.getLargeImage(index)
     }
   }
 }

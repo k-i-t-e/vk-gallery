@@ -20,3 +20,10 @@
 .gallery-placeholder {
   height: 80vh;
 }
+
+.image-modal {
+  z-index: 1050;
+  max-width: 800px;
+  width: auto;
+  max-height: 90vh;
+}
