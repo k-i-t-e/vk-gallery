@@ -20,8 +20,8 @@ img {
   padding-top: 10px;
 }
 
-.group-row {
-  margin-top: 5;
+.fav-btn {
+  cursor: pointer;
 }
 
 .fav-btn-fav {

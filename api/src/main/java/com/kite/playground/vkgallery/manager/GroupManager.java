@@ -1,6 +1,8 @@
 package com.kite.playground.vkgallery.manager;
 
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -37,8 +39,10 @@ public class GroupManager {
 
     public GroupsResult loadGroups() {
         VkUser currentUser = authManager.getCurrentUser();
-        List<Group> favouriteGroups = groupRepository.findAllByCreatedBy(currentUser.getId());
-        List<Group> allGroups = vkClient.getUsersGroups();
+        Set<Group> favouriteGroups = groupRepository.findAllByCreatedBy(currentUser.getId());
+        List<Group> allGroups = vkClient.getUsersGroups().stream()
+                .filter(g -> !favouriteGroups.contains(g))
+                .collect(Collectors.toList());
         return new GroupsResult(favouriteGroups, allGroups);
     }
 

@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
@@ -16,7 +17,9 @@ public class Group {
     private String domain;
     private String name;
     @Column(name = "group_alias")
+    @EqualsAndHashCode.Exclude
     private String alias;
+    @EqualsAndHashCode.Exclude
     private Long createdBy;
-    private transient String imageUrl;
+    private String imageUrl;
 }
