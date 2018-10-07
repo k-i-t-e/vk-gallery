@@ -7,11 +7,11 @@ import {ToolbarComponent} from './toolbar/toolbar.component';
 import {BrowserComponent} from './browser/browser.component';
 import {BrowserControlsComponent} from './browser-controls/browser-controls.component';
 import {FormsModule} from '@angular/forms';
-import { GroupsComponent } from './groups/groups.component';
+import {GroupsComponent} from './groups/groups.component';
 import {AppRoutingModule} from '../app-routing.module';
-import { ImageModalComponent } from './image-modal/image-modal.component';
-import {NgbModalModule} from '@ng-bootstrap/ng-bootstrap';
-import {LightboxModule} from 'ngx-lightbox';
+import {ImageDialogComponent} from './image-dialog/image-dialog.component';
+import {MatDialogModule} from '@angular/material';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 
 @NgModule({
   imports: [
@@ -19,12 +19,12 @@ import {LightboxModule} from 'ngx-lightbox';
     HttpClientModule,
     FormsModule,
     AppRoutingModule,
-    NgbModalModule,
-    LightboxModule
+    MatDialogModule,
+    BrowserAnimationsModule
   ],
-  declarations: [ LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent,
-                  GroupsComponent, ImageModalComponent ],
+  declarations: [LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent,
+                 GroupsComponent, ImageDialogComponent ],
   exports: [ LoginComponent, GalleryComponent, GroupsComponent ],
-  entryComponents: [ ImageModalComponent ]
+  entryComponents: [ImageDialogComponent ]
 })
 export class GalleryModule { }
