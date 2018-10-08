@@ -4,6 +4,7 @@ import {Image} from '../entity/Image';
 import {AppUtils} from '../utils/app-utils.service';
 import {MatDialog} from '@angular/material';
 import {ImageDialogComponent} from '../image-dialog/image-dialog.component';
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-browser',
@@ -18,7 +19,7 @@ export class BrowserComponent implements OnInit {
   groupId: string;
 
   constructor(private galleryService: GalleryService, public appUtils: AppUtils,
-              private dialog: MatDialog) { }
+              private dialog: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
   }
