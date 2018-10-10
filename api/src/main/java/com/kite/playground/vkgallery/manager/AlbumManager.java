@@ -8,8 +8,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.Assert;
+import org.springframework.util.CollectionUtils;
 
 import com.kite.playground.vkgallery.dao.AlbumRepository;
+import com.kite.playground.vkgallery.dao.ImageRepository;
 import com.kite.playground.vkgallery.entity.Album;
 import com.kite.playground.vkgallery.entity.Image;
 import com.kite.playground.vkgallery.entity.VkUser;
@@ -18,11 +21,13 @@ import com.kite.playground.vkgallery.entity.VkUser;
 public class AlbumManager {
     private AuthManager authManager;
     private AlbumRepository albumRepository;
+    private ImageRepository imageRepository;
 
     @Autowired
-    public AlbumManager(AuthManager authManager, AlbumRepository albumRepository) {
+    public AlbumManager(AuthManager authManager, AlbumRepository albumRepository, ImageRepository imageRepository) {
         this.authManager = authManager;
         this.albumRepository = albumRepository;
+        this.imageRepository = imageRepository;
     }
 
     public List<Album> loadAll() {
@@ -55,6 +60,20 @@ public class AlbumManager {
 
     @Transactional(propagation = Propagation.REQUIRED)
     public void addImage(Image image, long albumId) {
+        VkUser currentUser = authManager.getCurrentUser();
 
+        if (image.getId() == null) {
+            Assert.isTrue(!CollectionUtils.isEmpty(image.getUrls()), "Urls cannot be null");
+            image.setThumbnail(image.getUrls().get(Image.THUMBNAIL_RESOLUTION));
+            image.setCreatedDate(LocalDateTime.now(Clock.systemUTC()));
+        } else {
+            imageRepository.findByIdAndCreatedBy(image.getId(), currentUser.getId())
+                    .orElseThrow(() -> new IllegalArgumentException(String.format("Image with ID %d not found for current user", image.getId())));
+        }
+
+        image.setCreatedBy(currentUser.getId());
+        image.setAlbumId(albumId);
+
+        imageRepository.save(image);
     }
 }
