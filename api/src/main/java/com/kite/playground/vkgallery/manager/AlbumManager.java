@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.kite.playground.vkgallery.dao.AlbumRepository;
 import com.kite.playground.vkgallery.entity.Album;
+import com.kite.playground.vkgallery.entity.Image;
 import com.kite.playground.vkgallery.entity.VkUser;
 
 @Service
@@ -32,6 +33,11 @@ public class AlbumManager {
     @Transactional(propagation = Propagation.REQUIRED)
     public Album create(String name) {
         VkUser currentUser = authManager.getCurrentUser();
+
+        albumRepository.findByNameAndCreatedBy(name, currentUser.getId()).ifPresent((album) -> {
+            throw new IllegalArgumentException("Album already exists");
+        });
+
         return albumRepository.save(new Album(name, currentUser.getId(), LocalDateTime.now(Clock.systemUTC())));
     }
 
@@ -45,5 +51,10 @@ public class AlbumManager {
         VkUser currentUser = authManager.getCurrentUser();
         return albumRepository.findByIdAndCreatedBy(id, currentUser.getId())
                     .orElseThrow(() -> new IllegalArgumentException("No album with ID %s found for current user"));
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void addImage(Image image, long albumId) {
+
     }
 }

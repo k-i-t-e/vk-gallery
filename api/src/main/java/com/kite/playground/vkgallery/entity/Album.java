@@ -12,16 +12,16 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Album {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "album_id_generator")
     @SequenceGenerator(name = "album_id_generator", sequenceName = "s_album", schema = "vk_gallery", allocationSize = 1)
     private Long id;
     private String name;
     private Long createdBy;
-    private LocalDateTime createdAt;
+    private LocalDateTime createdDate;
 
-    public Album(String name, Long createdBy, LocalDateTime createdAt) {
+    public Album(String name, Long createdBy, LocalDateTime createdDate) {
         this.name = name;
         this.createdBy = createdBy;
-        this.createdAt = createdAt;
+        this.createdDate = createdDate;
     }
 }
