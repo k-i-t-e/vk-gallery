@@ -50,10 +50,8 @@ public class AlbumManager {
     public Album updateAlbum(Album album) {
         VkUser currentUser = authManager.getCurrentUser();
         Album existingAlbum = albumRepository.findByIdAndCreatedBy(album.getId(), currentUser.getId())
-                .orElseThrow(() -> {
-                    throw new IllegalArgumentException("No such album for user " + currentUser.getFirstName() + " "
-                    + currentUser.getLastName());
-                });
+                .orElseThrow(() -> new IllegalArgumentException("No such album for user " + currentUser.getFirstName() + " "
+                + currentUser.getLastName()));
 
         existingAlbum.setName(album.getName());
         // TODO: set cover
