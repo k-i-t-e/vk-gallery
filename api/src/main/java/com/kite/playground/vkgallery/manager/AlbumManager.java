@@ -47,6 +47,21 @@ public class AlbumManager {
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
+    public Album updateAlbum(Album album) {
+        VkUser currentUser = authManager.getCurrentUser();
+        Album existingAlbum = albumRepository.findByIdAndCreatedBy(album.getId(), currentUser.getId())
+                .orElseThrow(() -> {
+                    throw new IllegalArgumentException("No such album for user " + currentUser.getFirstName() + " "
+                    + currentUser.getLastName());
+                });
+
+        existingAlbum.setName(album.getName());
+        // TODO: set cover
+        albumRepository.save(existingAlbum);
+        return existingAlbum;
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED)
     public void deleteAlbum(long id) {
         Album album = load(id);
         albumRepository.delete(album);
@@ -66,6 +81,11 @@ public class AlbumManager {
             Assert.isTrue(!CollectionUtils.isEmpty(image.getUrls()), "Urls cannot be null");
             image.setThumbnail(image.getUrls().get(Image.THUMBNAIL_RESOLUTION));
             image.setCreatedDate(LocalDateTime.now(Clock.systemUTC()));
+
+            imageRepository.findByAlbumIdAndThumbnail(albumId, image.getThumbnail())
+                    .ifPresent(i -> {
+                        throw new IllegalArgumentException("Such image is already present in album " + albumId);
+                    });
         } else {
             imageRepository.findByIdAndCreatedBy(image.getId(), currentUser.getId())
                     .orElseThrow(() -> new IllegalArgumentException(String.format("Image with ID %d not found for current user", image.getId())));
@@ -75,5 +95,9 @@ public class AlbumManager {
         image.setAlbumId(albumId);
 
         imageRepository.save(image);
+    }
+
+    public List<Image> loadImages(long albumId) {
+        return imageRepository.findAllByAlbumId(albumId);
     }
 }

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import com.kite.playground.vkgallery.entity.Album;
+import com.kite.playground.vkgallery.entity.Image;
 import com.kite.playground.vkgallery.manager.AlbumManager;
 
 @RestController
@@ -29,7 +30,7 @@ public class AlbumController extends AbstractRestController {
 
     @PutMapping("album")
     public Album updateAlbum(Album album) {
-        throw new UnsupportedOperationException();
+        return albumManager.updateAlbum(album);
     }
 
     @PutMapping("album/{id}")
@@ -38,8 +39,14 @@ public class AlbumController extends AbstractRestController {
         return true;
     }
 
-    @GetMapping("album/{id}")
-    public Album loadAlbum(@PathVariable long id) {
-        throw new UnsupportedOperationException();
+    @PutMapping("album/{albumId}/image")
+    public Boolean addImage(@PathVariable long albumId, @RequestBody Image image) {
+        albumManager.addImage(image, albumId);
+        return true;
+    }
+
+    @GetMapping("album/{albumId}/images")
+    public List<Image> getAlbumImages(@PathVariable long albumId) {
+        return albumManager.loadImages(albumId);
     }
 }
