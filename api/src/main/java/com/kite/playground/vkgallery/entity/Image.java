@@ -2,6 +2,7 @@ package com.kite.playground.vkgallery.entity;
 
 import java.time.LocalDateTime;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -14,6 +15,7 @@ import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
 import lombok.AllArgsConstructor;
@@ -60,6 +62,10 @@ public class Image {
 
         @Override
         public Map<String, String> convertToEntityAttribute(String dbData) {
+            if (StringUtils.isBlank(dbData)) {
+                return new HashMap<>();
+            }
+
             return Arrays.stream(dbData.split(";"))
                 .map(p -> {
                     String[] parts = p.split(":");

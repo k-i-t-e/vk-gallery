@@ -7,7 +7,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import com.kite.playground.vkgallery.entity.Album;
 
-public interface AlbumRepository extends CrudRepository<Album, Long> {
+public interface AlbumRepository extends CrudRepository<Album, Long>, CustomAlbumRepository {
     List<Album> findAllByCreatedBy(long owner);
     Optional<Album> findByIdAndCreatedBy(long id, long createdBy);
     Optional<Album> findByNameAndCreatedBy(String name, long createdBy);

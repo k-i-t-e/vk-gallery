@@ -21,9 +21,6 @@ import com.kite.playground.vkgallery.entity.VkUser;
 
 public class ImageRepositoryTest extends AbstractDaoTest {
     @Autowired
-    private TestEntityManager testEntityManager;
-
-    @Autowired
     private ImageRepository imageRepository;
 
     @Autowired
@@ -60,9 +57,15 @@ public class ImageRepositoryTest extends AbstractDaoTest {
         Optional<Image> loaded = imageRepository.findById(image.getId());
 
         Assert.assertTrue(loaded.isPresent());
-        loaded.ifPresent(i -> {
-            Assert.assertEquals(image.getUrls(), i.getUrls());
-            Assert.assertEquals(image.getPostId(), i.getPostId());
-        });
+        loaded.ifPresent(i -> assertEquals(image, i));
+    }
+
+    static void assertEquals(Image image, Image loadedImage) {
+        Assert.assertEquals(image.getId(), loadedImage.getId());
+        Assert.assertEquals(image.getThumbnail(), loadedImage.getThumbnail());
+        Assert.assertEquals(image.getUrls(), loadedImage.getUrls());
+        Assert.assertEquals(image.getPostId(), loadedImage.getPostId());
+        Assert.assertEquals(image.getCreatedDate(), loadedImage.getCreatedDate());
+        Assert.assertEquals(image.getCreatedBy(), loadedImage.getCreatedBy());
     }
 }

@@ -50,8 +50,8 @@ public class AlbumManager {
     public Album updateAlbum(Album album) {
         VkUser currentUser = authManager.getCurrentUser();
         Album existingAlbum = albumRepository.findByIdAndCreatedBy(album.getId(), currentUser.getId())
-                .orElseThrow(() -> new IllegalArgumentException("No such album for user " + currentUser.getFirstName() + " "
-                + currentUser.getLastName()));
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "No such album for user " + currentUser.getFirstName() + " " + currentUser.getLastName()));
 
         existingAlbum.setName(album.getName());
         // TODO: set cover
@@ -86,7 +86,8 @@ public class AlbumManager {
                     });
         } else {
             imageRepository.findByIdAndCreatedBy(image.getId(), currentUser.getId())
-                    .orElseThrow(() -> new IllegalArgumentException(String.format("Image with ID %d not found for current user", image.getId())));
+                    .orElseThrow(() -> new IllegalArgumentException(
+                            String.format("Image with ID %d not found for current user", image.getId())));
         }
 
         image.setCreatedBy(currentUser.getId());

@@ -7,7 +7,8 @@ import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = {
-        "com.kite.playground.vkgallery.manager"
+        "com.kite.playground.vkgallery.manager",
+        "com.kite.playground.vkgallery.dao"
 })
 @EnableJpaRepositories(basePackages = "com.kite.playground.vkgallery.dao")
 @EntityScan(basePackages = "com.kite.playground.vkgallery.entity")
