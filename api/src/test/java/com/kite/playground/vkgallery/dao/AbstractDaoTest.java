@@ -16,7 +16,7 @@ import com.kite.playground.vkgallery.app.DBUnitTestConfiguration;
 @TestPropertySource(value={"classpath:test-application.properties"})
 @ContextConfiguration(classes = DBUnitTestConfiguration.class)
 @DataJpaTest
-public class AbstractDaoTest {
+public abstract class AbstractDaoTest {
     @Autowired
     protected TestEntityManager testEntityManager;
 }
