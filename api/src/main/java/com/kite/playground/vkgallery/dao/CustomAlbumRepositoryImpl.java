@@ -2,14 +2,18 @@ package com.kite.playground.vkgallery.dao;
 
 import java.util.List;
 
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcDaoSupport;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.kite.playground.vkgallery.entity.Album;
 import com.kite.playground.vkgallery.entity.Image;
 
 @Repository
-public class CustomAlbumRepositoryImpl extends NamedParameterJdbcDaoSupport implements CustomAlbumRepository {
+public class CustomAlbumRepositoryImpl implements CustomAlbumRepository {
+    @Autowired
+    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
     private static final String FIND_LATEST_IMAGE_FOR_ALBUMS_QUERY =
             "SELECT a.id as album_id, (" +
                     "SELECT i.*  FROM vk_gallery.album_image i " +
@@ -20,7 +24,7 @@ public class CustomAlbumRepositoryImpl extends NamedParameterJdbcDaoSupport impl
 
     @Override
     public List<Album> findLatestImageForAlbums() {
-        return getJdbcTemplate().query(FIND_LATEST_IMAGE_FOR_ALBUMS_QUERY, (rs, rowNum) -> {
+        return namedParameterJdbcTemplate.query(FIND_LATEST_IMAGE_FOR_ALBUMS_QUERY, (rs, rowNum) -> {
             Album album = new Album();
             album.setId(rs.getLong(Columns.ALBUM_ID.name()));
 
