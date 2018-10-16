@@ -1,13 +1,11 @@
 package com.kite.playground.vkgallery.dao;
 
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
-
-import com.kite.playground.vkgallery.entity.Album;
-import com.kite.playground.vkgallery.entity.Image;
 
 @Repository
 public class CustomAlbumRepositoryImpl implements CustomAlbumRepository {
@@ -16,28 +14,19 @@ public class CustomAlbumRepositoryImpl implements CustomAlbumRepository {
 
     private static final String FIND_LATEST_IMAGE_FOR_ALBUMS_QUERY =
             "SELECT a.id as album_id, (" +
-                    "SELECT i.*  FROM vk_gallery.album_image i " +
+                    "SELECT i.id  FROM vk_gallery.album_image i " +
                     "WHERE i.album_id = a.id " +
                     "ORDER BY i.id " +
                     "DESC LIMIT 1 OFFSET 0" +
-                ") FROM vk_gallery.album a";
+                ") as image_id FROM vk_gallery.album a WHERE a.cover_id IS NULL AND a.created_by = ?";
 
     @Override
-    public List<Album> findLatestImageForAlbums() {
-        return namedParameterJdbcTemplate.query(FIND_LATEST_IMAGE_FOR_ALBUMS_QUERY, (rs, rowNum) -> {
-            Album album = new Album();
-            album.setId(rs.getLong(Columns.ALBUM_ID.name()));
+    public Map<Long, Long> findLatestImageForAlbums(long createdBy) {
+        Map<Long, Long> result = new HashMap<>();
+        namedParameterJdbcTemplate.getJdbcTemplate().query(FIND_LATEST_IMAGE_FOR_ALBUMS_QUERY, rs -> {
+                result.put(rs.getLong(1), rs.getLong(2));
+            }, createdBy);
 
-            Image cover = new Image();
-            cover.setId(rs.getLong(Columns.ID.name()));
-
-            album.setCover(cover);
-            return album;
-        });
-    }
-
-    enum Columns {
-        ALBUM_ID,
-        ID
+        return result;
     }
 }

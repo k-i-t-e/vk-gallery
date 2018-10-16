@@ -2,7 +2,10 @@ package com.kite.playground.vkgallery.manager;
 
 import java.time.Clock;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,9 +33,22 @@ public class AlbumManager {
         this.imageRepository = imageRepository;
     }
 
-    public List<Album> loadAll() {
+    public Collection<Album> loadAll() {
         VkUser currentUser = authManager.getCurrentUser();
-        return albumRepository.findAllByCreatedBy(currentUser.getId());
+        Map<Long, Album> albumMap = albumRepository.findAllByCreatedBy(currentUser.getId()).stream()
+            .collect(Collectors.toMap(Album::getId, a -> a));
+
+        if (albumMap.values().stream().anyMatch(a -> a.getCover() == null)) {
+            Map<Long, Long> lastImagesMap = albumRepository.findLatestImageForAlbums(currentUser.getId());
+            for (Image image : imageRepository.findAllById(lastImagesMap.values())) {
+                Album album = albumMap.get(image.getAlbumId());
+                if (album != null) {
+                    album.setCover(image);
+                }
+            }
+        }
+
+        return albumMap.values();
     }
 
     @Transactional(propagation = Propagation.REQUIRED)
@@ -54,7 +70,7 @@ public class AlbumManager {
                         "No such album for user " + currentUser.getFirstName() + " " + currentUser.getLastName()));
 
         existingAlbum.setName(album.getName());
-        // TODO: set cover
+        existingAlbum.setCover(album.getCover());
         albumRepository.save(existingAlbum);
         return existingAlbum;
     }
@@ -76,7 +92,9 @@ public class AlbumManager {
         VkUser currentUser = authManager.getCurrentUser();
 
         if (image.getId() == null) {
-            Assert.isTrue(!CollectionUtils.isEmpty(image.getUrls()), "Urls cannot be null");
+            Assert.isTrue(!CollectionUtils.isEmpty(image.getUrls()), "URLs cannot be empty");
+            Assert.isTrue(image.getUrls().containsKey(Image.THUMBNAIL_RESOLUTION), "Thumbnail must be present");
+
             image.setThumbnail(image.getUrls().get(Image.THUMBNAIL_RESOLUTION));
             image.setCreatedDate(LocalDateTime.now(Clock.systemUTC()));
 

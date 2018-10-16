@@ -1,12 +1,20 @@
 package com.kite.playground.vkgallery.entity;
 
 import java.time.LocalDateTime;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
+import javax.persistence.Table;
 
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -14,6 +22,7 @@ import lombok.NoArgsConstructor;
 @Table(name = "album", schema = "vk_gallery")
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class Album {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "album_id_generator")

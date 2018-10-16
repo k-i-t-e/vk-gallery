@@ -2,6 +2,7 @@ package com.kite.playground.vkgallery.dao;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.junit.Assert;
@@ -70,9 +71,21 @@ public class AlbumRepositoryTest extends AbstractDaoTest {
 
         Album loadedAlbum = albumRepository.findById(album.getId()).get();
         ImageRepositoryTest.assertEquals(cover, loadedAlbum.getCover());
+    }
 
-        List<Album> albums = albumRepository.findLatestImageForAlbums();
-        Assert.assertFalse(albums.isEmpty());
+    @Test
+    public void testLoadNoCovers() {
+        Album album = new Album("test", vkUser.getId(), Utils.nowUTC());
+        albumRepository.save(album);
+
+        Image cover = new Image(0L, Collections.emptyMap(), null, "thumbnail", album.getId(),
+                                vkUser.getId(), Utils.nowUTC());
+        imageRepository.save(cover);
+
+        testEntityManager.flush();
+
+        Map<Long, Long> albums = albumRepository.findLatestImageForAlbums(vkUser.getId());
+        Assert.assertEquals(1, albums.size());
     }
 
     private void assertEquals(Album album, Album loadedAlbum) {

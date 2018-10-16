@@ -68,7 +68,7 @@ public class Image {
 
             return Arrays.stream(dbData.split(";"))
                 .map(p -> {
-                    String[] parts = p.split(":");
+                    String[] parts = p.split(":", 2);
                     Assert.isTrue(parts.length == 2, "Unexpected URLs database value found: " + dbData);
                     return parts;
                 })

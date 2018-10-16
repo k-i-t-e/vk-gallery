@@ -1,5 +1,6 @@
 package com.kite.playground.vkgallery.controller;
 
+import java.util.Collection;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class AlbumController extends AbstractRestController {
     }
 
     @GetMapping("album")
-    public List<Album> getAlbums() {
+    public Collection<Album> getAlbums() {
         return albumManager.loadAll();
     }
 

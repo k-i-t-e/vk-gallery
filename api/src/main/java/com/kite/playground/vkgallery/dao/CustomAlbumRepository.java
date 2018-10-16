@@ -1,9 +1,7 @@
 package com.kite.playground.vkgallery.dao;
 
-import java.util.List;
-
-import com.kite.playground.vkgallery.entity.Album;
+import java.util.Map;
 
 public interface CustomAlbumRepository {
-    List<Album> findLatestImageForAlbums();
+    Map<Long, Long> findLatestImageForAlbums(long createdBy);
 }
