@@ -71,17 +71,17 @@ public class VkClient {
             Pair<List<Image>, Integer> imagesAndOffset = loadImagePortion(groupId, userActor, pageSize, offset);
             List<Image> images = imagesAndOffset.getLeft();
 
-            int nextPageOffset = offset;
-            while (imagesAndOffset.getLeft().size() < pageSize) {
+            int nextPageOffset = offset + imagesAndOffset.getRight();
+            while (images.size() < pageSize) {
                 Pair<List<Image>, Integer> portion = loadImagePortion(groupId, userActor, MAX_ALLOWED_POSTS_COUNT,
-                        offset + imagesAndOffset.getRight());
+                        nextPageOffset);
                 images.addAll(portion.getLeft());
                 nextPageOffset += portion.getRight();
             }
 
             if (images.size() > pageSize) {
                 List<Image> sublist = images.subList(0, pageSize);
-                nextPageOffset -= images.subList(pageSize - 1, images.size()).stream()
+                nextPageOffset -= images.subList(pageSize, images.size()).stream()
                         .map(Image::getPostId)
                         .distinct()
                         .count();
