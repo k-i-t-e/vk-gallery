@@ -1,3 +1,12 @@
-<p>
-  like-dialog works!
-</p>
+<form>
+  <div class="form-group">
+    <label>Select Album</label>
+    <input type="text" class="form-control form-control-sm" [(ngModel)]="albumName" name="albumName">
+    <i class="material-icons drop-down-icon" (click)="doShowOptions()">keyboard_arrow_down</i>
+    <i class="material-icons add-icon" (click)="addAlbum()">add</i>
+
+    <div class="select-options" *ngIf="showOptions">
+      <div class="row select-option border-bottom" *ngFor="let album of albums" (click)="selectOption(album)">{{album.name}}</div>
+    </div>
+  </div>
+</form>

@@ -1,0 +1,41 @@
+.drop-down-icon {
+  width: 15px;
+  margin: -25px 10px;
+  float: right;
+  cursor: pointer;
+}
+
+.add-icon {
+  width: 15px;
+  margin: -24px 25px;
+  float: right;
+  cursor: pointer;
+  font-size: 20px;
+}
+
+.select-options {
+  position: fixed;
+  margin-top: 3px;
+}
+
+.select-option {
+  background-color: #ffffff;
+  margin-left: 0;
+  padding: 5px 0 5px 10px;
+  width: 179px;
+  cursor: pointer;
+}
+
+.select-option:first-child {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+}
+
+.select-option:last-child {
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.select-option:hover {
+  background-color: rgba(0, 123, 255, 0.7);
+}
