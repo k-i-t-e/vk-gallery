@@ -74,7 +74,8 @@ export class BrowserComponent implements OnInit {
     if (index < this.images.length) {
       this.dialog.open(ImageDialogComponent, {
         data: {
-          imageUrl: this.getLargeImage(index)
+          imageUrl: this.getLargeImage(index),
+          image: this.images[index]
         }
       })
     }

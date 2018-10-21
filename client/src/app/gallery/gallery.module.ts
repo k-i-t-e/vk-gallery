@@ -10,8 +10,10 @@ import {FormsModule} from '@angular/forms';
 import {GroupsComponent} from './groups/groups.component';
 import {AppRoutingModule} from '../app-routing.module';
 import {ImageDialogComponent} from './image-dialog/image-dialog.component';
-import {MatDialogModule} from '@angular/material';
+import {MatButtonModule, MatDialogModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import { LikeDialogComponent } from './like-dialog/like-dialog.component';
+import {EllipsisPipe} from './pipe/ellipsis.pipe';
 
 @NgModule({
   imports: [
@@ -20,11 +22,12 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
     FormsModule,
     AppRoutingModule,
     MatDialogModule,
+    MatButtonModule,
     BrowserAnimationsModule
   ],
   declarations: [LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent,
-                 GroupsComponent, ImageDialogComponent ],
+                 GroupsComponent, ImageDialogComponent, LikeDialogComponent, EllipsisPipe ],
   exports: [ LoginComponent, GalleryComponent, GroupsComponent ],
-  entryComponents: [ImageDialogComponent ]
+  entryComponents: [ImageDialogComponent, LikeDialogComponent ]
 })
 export class GalleryModule { }

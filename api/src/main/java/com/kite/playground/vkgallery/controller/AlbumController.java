@@ -25,7 +25,7 @@ public class AlbumController extends AbstractRestController {
     }
 
     @PostMapping("album")
-    public Album createAlbum(String name) {
+    public Album createAlbum(@RequestBody String name) {
         return albumManager.create(name);
     }
 
