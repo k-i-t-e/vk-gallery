@@ -1,12 +1,18 @@
-<form>
+<form class="needs-validation">
   <div class="form-group">
     <label>Select Album</label>
-    <input type="text" class="form-control form-control-sm" [(ngModel)]="albumName" name="albumName">
+    <input type="text" (keyup)="onChangeName()" [class.is-invalid]="errorMessage" class="form-control form-control-sm" [(ngModel)]="albumName" name="albumName">
     <i class="material-icons drop-down-icon" (click)="doShowOptions()">keyboard_arrow_down</i>
     <i class="material-icons add-icon" (click)="addAlbum()">add</i>
-
     <div class="select-options" *ngIf="showOptions">
       <div class="row select-option border-bottom" *ngFor="let album of albums" (click)="selectOption(album)">{{album.name}}</div>
     </div>
+    <div class="invalid-feedback">
+      {{errorMessage | ellipsis:50}}
+    </div>
+  </div>
+  <div>
+    <button class="ml-2 float-right btn btn-primary btn-sm" (click)="onOk()">Ok</button>
+    <button class="float-right btn btn-secondary btn-sm" (click)="onCancel()">Cancel</button>
   </div>
 </form>

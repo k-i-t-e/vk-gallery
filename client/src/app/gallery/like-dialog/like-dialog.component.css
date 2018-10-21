@@ -39,3 +39,7 @@
 .select-option:hover {
   background-color: rgba(0, 123, 255, 0.7);
 }
+
+.error-message {
+  max-width: 200px;
+}

@@ -1,6 +1,7 @@
 import {Component, Inject, Input, OnInit} from '@angular/core';
 import {MAT_DIALOG_DATA, MatDialog, MatDialogRef} from '@angular/material';
 import {LikeDialogComponent} from '../like-dialog/like-dialog.component';
+import {Image} from '../entity/Image';
 
 @Component({
   selector: 'app-image-dialog',
@@ -9,7 +10,7 @@ import {LikeDialogComponent} from '../like-dialog/like-dialog.component';
 })
 export class ImageDialogComponent implements OnInit {
   @Input() imageUrl;
-  @Input() image;
+  @Input() image: Image;
 
   constructor(public dialogRef: MatDialogRef<ImageDialogComponent>,
               @Inject(MAT_DIALOG_DATA) data: any, private dialog: MatDialog) {

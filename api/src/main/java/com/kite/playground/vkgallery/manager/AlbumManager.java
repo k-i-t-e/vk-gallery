@@ -100,7 +100,8 @@ public class AlbumManager {
 
             imageRepository.findByAlbumIdAndThumbnail(albumId, image.getThumbnail())
                     .ifPresent(i -> {
-                        throw new IllegalArgumentException("Such image is already present in album " + albumId);
+                        throw new IllegalArgumentException(String.format("Such image is already present in album '%s'",
+                                albumRepository.findById(albumId).get().getName()));
                     });
         } else {
             imageRepository.findByIdAndCreatedBy(image.getId(), currentUser.getId())
