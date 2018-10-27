@@ -4,7 +4,8 @@ import {Router} from '@angular/router';
 
 const TABS = {
   GALLERY: '/gallery',
-  GROUPS: '/groups'
+  GROUPS: '/groups',
+  ALBUMS: '/albums'
 };
 
 @Component({

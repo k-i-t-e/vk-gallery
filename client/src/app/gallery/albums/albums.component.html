@@ -1,0 +1,22 @@
+<div class="container-fluid main-container">
+  <div class="row no-gutters align-items-center">
+    <div class="col"></div>
+    <div class="col-7 main gallery-container">
+      <div class="row gallery-placeholder align-items-center" *ngIf="albums.length == 0">
+        <div class="col"></div>
+        <div class="col text-center">
+          <div class="lead">You have no albums yet. Click here to create one</div>
+        </div>
+        <div class="col"></div>
+      </div>
+      <div class="row no-gutters" *ngFor="let i of appUtils.getRange(albums.length / 4)">
+        <div class="col img" *ngFor="let j of [0, 1, 2, 3]">
+          <img class="img-fluid" *ngIf="albums[i * 4 + j].cover.thumbnail" [src]="albums[i * 4 + j].cover.thumbnail">
+          <div class="album-info" *ngIf="albums.length >= i * 4 + j">{{albums[i * 4 + j].name}}</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="col"></div>
+  </div>
+</div>

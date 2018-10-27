@@ -1,0 +1,40 @@
+.main-container {
+  margin-top: 10px;
+}
+
+.main {
+  background-color: white;
+  border: 1px solid #dddddd;
+}
+
+.img {
+  position: relative;
+  margin: 2px;
+}
+
+.img img {
+  height: 200px;
+  width: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}
+
+.gallery-container {
+  padding: 2px;
+}
+
+.gallery-placeholder {
+  height: 80vh;
+}
+
+.album-info {
+  position: absolute;
+  top: 180px;
+  width: 100%;
+  padding-left: 5px;
+  background-color: rgba(0,0,0,0.6);
+  color: #fff;
+  height: 20px;
+  font-size: 10pt;
+  font-weight: bold;
+}

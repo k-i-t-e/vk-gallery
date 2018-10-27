@@ -4,7 +4,7 @@ import {Image} from '../entity/Image';
 import {AppUtils} from '../utils/app-utils.service';
 import {MatDialog} from '@angular/material';
 import {ImageDialogComponent} from '../image-dialog/image-dialog.component';
-import {ActivatedRoute} from "@angular/router";
+import {ActivatedRoute} from '@angular/router';
 
 @Component({
   selector: 'app-browser',

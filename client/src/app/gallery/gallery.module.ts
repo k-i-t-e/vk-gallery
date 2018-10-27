@@ -14,6 +14,7 @@ import {MatButtonModule, MatDialogModule} from '@angular/material';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { LikeDialogComponent } from './like-dialog/like-dialog.component';
 import {EllipsisPipe} from './pipe/ellipsis.pipe';
+import { AlbumsComponent } from './albums/albums.component';
 
 @NgModule({
   imports: [
@@ -26,7 +27,7 @@ import {EllipsisPipe} from './pipe/ellipsis.pipe';
     BrowserAnimationsModule
   ],
   declarations: [LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent,
-                 GroupsComponent, ImageDialogComponent, LikeDialogComponent, EllipsisPipe ],
+                 GroupsComponent, ImageDialogComponent, LikeDialogComponent, EllipsisPipe, AlbumsComponent ],
   exports: [ LoginComponent, GalleryComponent, GroupsComponent ],
   entryComponents: [ImageDialogComponent, LikeDialogComponent ]
 })
