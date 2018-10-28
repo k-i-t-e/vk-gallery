@@ -8,6 +8,8 @@ const TABS = {
   ALBUMS: '/albums'
 };
 
+const rootUrlRegex = /(\/\w+)\/?/;
+
 @Component({
   selector: 'app-toolbar',
   templateUrl: './toolbar.component.html',
@@ -18,7 +20,8 @@ export class ToolbarComponent implements OnInit {
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
-    this.activeTab = Object.entries(TABS).filter(e => e[1] === this.router.url)[0][0]
+    const match = rootUrlRegex.exec(this.router.url);
+    this.activeTab = Object.entries(TABS).filter(e => e[1] === match[1])[0][0]
   }
 
   logout() {

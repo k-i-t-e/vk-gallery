@@ -1,0 +1,12 @@
+<div class="row gallery-placeholder align-items-center" *ngIf="thumbnails.length == 0">
+  <div class="col"></div>
+  <div class="col text-center">
+    <div class="lead">{{placeholderString}}</div>
+  </div>
+  <div class="col"></div>
+</div>
+<div class="row no-gutters" *ngFor="let i of appUtils.getRange(thumbnails.length / 4)">
+  <div class="col img" *ngFor="let j of [0, 1, 2, 3]">
+    <img class="img-fluid" *ngIf="thumbnails[i * 4 + j]" [src]="thumbnails[i * 4 + j]">
+  </div>
+</div>

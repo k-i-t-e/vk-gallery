@@ -9,11 +9,11 @@
 
 .img {
   position: relative;
-  margin: 2px;
+  margin: 0.25rem;
 }
 
 .img img {
-  height: 200px;
+  height: 150px;
   width: 100%;
   object-fit: cover;
   cursor: pointer;
@@ -29,7 +29,7 @@
 
 .album-info {
   position: absolute;
-  top: 180px;
+  top: 130px;
   width: 100%;
   padding-left: 5px;
   background-color: rgba(0,0,0,0.6);

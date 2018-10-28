@@ -36,4 +36,8 @@ export class AlbumService {
   public addImage(albumId: number, image: Image): Observable<Boolean> {
     return this.http.put<Boolean>(API_ROOT_URL + `/album/${albumId}/image`, image)
   }
+
+  public getAlbumImages(albumId: number): Observable<Array<Image>> {
+    return this.http.get<Array<Image>>(API_ROOT_URL + `/album/${albumId}/images`)
+  }
 }

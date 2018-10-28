@@ -15,6 +15,8 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import { LikeDialogComponent } from './like-dialog/like-dialog.component';
 import {EllipsisPipe} from './pipe/ellipsis.pipe';
 import { AlbumsComponent } from './albums/albums.component';
+import { ThumbnailsComponent } from './thumbnails/thumbnails.component';
+import { AlbumComponent } from './album/album.component';
 
 @NgModule({
   imports: [
@@ -27,7 +29,7 @@ import { AlbumsComponent } from './albums/albums.component';
     BrowserAnimationsModule
   ],
   declarations: [LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent,
-                 GroupsComponent, ImageDialogComponent, LikeDialogComponent, EllipsisPipe, AlbumsComponent ],
+                 GroupsComponent, ImageDialogComponent, LikeDialogComponent, EllipsisPipe, AlbumsComponent, ThumbnailsComponent, AlbumComponent ],
   exports: [ LoginComponent, GalleryComponent, GroupsComponent ],
   entryComponents: [ImageDialogComponent, LikeDialogComponent ]
 })

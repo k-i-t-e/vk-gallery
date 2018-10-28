@@ -1,0 +1,11 @@
+.img {
+  position: relative;
+  margin: 0.25rem;
+}
+
+.img img {
+  height: 150px;
+  width: 100%;
+  object-fit: cover;
+  cursor: pointer;
+}

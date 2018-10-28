@@ -11,8 +11,9 @@
       </div>
       <div class="row no-gutters" *ngFor="let i of appUtils.getRange(albums.length / 4)">
         <div class="col img" *ngFor="let j of [0, 1, 2, 3]">
-          <img class="img-fluid" *ngIf="albums[i * 4 + j].cover.thumbnail" [src]="albums[i * 4 + j].cover.thumbnail">
-          <div class="album-info" *ngIf="albums.length >= i * 4 + j">{{albums[i * 4 + j].name}}</div>
+          <img class="img-fluid" *ngIf="albums[i * 4 + j]" [src]="albums[i * 4 + j].cover.thumbnail"
+               (click)="openAlbum(albums[i * 4 + j])">
+          <div class="album-info" *ngIf="albums[i * 4 + j]">{{albums[i * 4 + j].name}}</div>
         </div>
       </div>
     </div>
