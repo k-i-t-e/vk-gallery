@@ -4,30 +4,30 @@
     <nav aria-label="Page navigation example">
       <ul class="pagination-sm pagination custom-pagination">
         <li class="page-item" [class.disabled]="page == 0" (click)="selectPreviousPage()">
-          <a class="page-link" href="#" aria-label="Previous">
+          <a class="page-link" aria-label="Previous">
             <span aria-hidden="true">&laquo;</span>
             <span class="sr-only">Previous</span>
           </a>
         </li>
 
         <li *ngIf="showFirst" class="page-item" (click)="selectPage(0)">
-          <a class="page-link" href="#">1</a>
+          <a class="page-link">1</a>
         </li>
         <li *ngIf="showSpaceBefore" class="page-item">
-          <a class="page-link" href="#">...</a>
+          <a class="page-link">...</a>
         </li>
         <li *ngFor="let i of getMiddleRange()" class="page-item" [class.active]="i === page" (click)="selectPage(i)">
-          <a class="page-link" href="#">{{i + 1}}</a>
+          <a class="page-link">{{i + 1}}</a>
         </li>
         <li *ngIf="showSpaceAfter" class="page-item">
-          <a class="page-link" href="#">...</a>
+          <a class="page-link">...</a>
         </li>
         <li *ngIf="showLast" class="page-item" (click)="selectPage(totalPages - 1)">
-          <a class="page-link" href="#">{{totalPages}}</a>
+          <a class="page-link">{{totalPages}}</a>
         </li>
 
         <li class="page-item">
-          <a class="page-link" href="#" aria-label="Next" (click)="selectPage(page + 1)">
+          <a class="page-link" aria-label="Next" (click)="selectPage(page + 1)">
             <span aria-hidden="true">&raquo;</span>
             <span class="sr-only">Next</span>
           </a>

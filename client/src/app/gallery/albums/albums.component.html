@@ -2,6 +2,12 @@
   <div class="row no-gutters align-items-center">
     <div class="col"></div>
     <div class="col-7 main gallery-container">
+      <div class="row m-1 border-bottom align-items-center no-gutters pb-2 pt-1">
+        <div class="col-auto ml-auto mr-2">
+          <button class="btn btn-outline-secondary btn-sm" (click)="openNewAlbumDialog()">New Album</button>
+        </div>
+      </div>
+
       <div class="row gallery-placeholder align-items-center" *ngIf="albums.length == 0">
         <div class="col"></div>
         <div class="col text-center">

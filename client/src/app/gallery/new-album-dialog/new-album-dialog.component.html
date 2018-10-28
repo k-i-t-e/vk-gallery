@@ -1,0 +1,14 @@
+<form class="needs-validation">
+  <div class="form-group">
+    <label>New Album</label>
+    <input type="text" [class.is-invalid]="errorMessage" class="form-control form-control-sm" [(ngModel)]="albumName" name="albumName">
+
+    <div class="invalid-feedback">
+      {{errorMessage | ellipsis:50}}
+    </div>
+  </div>
+  <div>
+    <button class="ml-2 float-right btn btn-primary btn-sm" (click)="onOk()">Ok</button>
+    <button class="float-right btn btn-secondary btn-sm" (click)="onCancel()">Cancel</button>
+  </div>
+</form>

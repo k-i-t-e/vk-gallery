@@ -1,7 +1,10 @@
 <img [src]="imageUrl" class="img-fluid image" >
 <div class="row justify-content-end mt-2">
-    <div class="col-auto fake-btn">View full</div>
-    <div class="col-auto fake-btn" (click)="openLikeDialog()">
+    <div class="col-auto fake-btn" (click)="openFullView()">View full</div>
+    <div *ngIf="!image.id" class="col-auto fake-btn" (click)="openLikeDialog()">
       <i class="material-icons">star_border</i>
+    </div>
+    <div *ngIf="image.id" class="col-auto fake-btn">
+      <i class="material-icons">more_vert</i>
     </div>
 </div>

@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AuthService} from '../service/auth/auth.service';
-import {Router} from '@angular/router';
+import {NavigationEnd, Router} from '@angular/router';
 
 const TABS = {
   GALLERY: '/gallery',
@@ -17,9 +17,16 @@ const rootUrlRegex = /(\/\w+)\/?/;
 })
 export class ToolbarComponent implements OnInit {
   activeTab = 'GALLERY';
-  constructor(private authService: AuthService, private router: Router) { }
+  constructor(private authService: AuthService, private router: Router) {}
 
   ngOnInit() {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        const matchUrl = rootUrlRegex.exec(event.url);
+        this.activeTab = Object.entries(TABS).filter(e => e[1] === matchUrl[1])[0][0]
+      }
+    });
+
     const match = rootUrlRegex.exec(this.router.url);
     this.activeTab = Object.entries(TABS).filter(e => e[1] === match[1])[0][0]
   }

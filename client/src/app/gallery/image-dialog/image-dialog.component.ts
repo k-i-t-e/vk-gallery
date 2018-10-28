@@ -29,4 +29,8 @@ export class ImageDialogComponent implements OnInit {
       }
     });
   }
+
+  openFullView() {
+    window.open(this.imageUrl)
+  }
 }

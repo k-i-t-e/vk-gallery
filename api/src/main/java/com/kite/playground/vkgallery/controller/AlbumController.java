@@ -30,7 +30,7 @@ public class AlbumController extends AbstractRestController {
     }
 
     @PutMapping("album")
-    public Album updateAlbum(Album album) {
+    public Album updateAlbum(@RequestBody Album album) {
         return albumManager.updateAlbum(album);
     }
 

@@ -17,6 +17,7 @@ import {EllipsisPipe} from './pipe/ellipsis.pipe';
 import { AlbumsComponent } from './albums/albums.component';
 import { ThumbnailsComponent } from './thumbnails/thumbnails.component';
 import { AlbumComponent } from './album/album.component';
+import { NewAlbumDialogComponent } from './new-album-dialog/new-album-dialog.component';
 
 @NgModule({
   imports: [
@@ -29,8 +30,9 @@ import { AlbumComponent } from './album/album.component';
     BrowserAnimationsModule
   ],
   declarations: [LoginComponent, GalleryComponent, ToolbarComponent, BrowserComponent, BrowserControlsComponent,
-                 GroupsComponent, ImageDialogComponent, LikeDialogComponent, EllipsisPipe, AlbumsComponent, ThumbnailsComponent, AlbumComponent ],
+                 GroupsComponent, ImageDialogComponent, LikeDialogComponent, EllipsisPipe, AlbumsComponent,
+                 ThumbnailsComponent, AlbumComponent, NewAlbumDialogComponent ],
   exports: [ LoginComponent, GalleryComponent, GroupsComponent ],
-  entryComponents: [ImageDialogComponent, LikeDialogComponent ]
+  entryComponents: [ImageDialogComponent, LikeDialogComponent, NewAlbumDialogComponent ]
 })
 export class GalleryModule { }
