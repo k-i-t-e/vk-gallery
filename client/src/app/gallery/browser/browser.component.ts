@@ -13,6 +13,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class BrowserComponent implements OnInit {
   images: Array<Image> = [];
+  thumbnails: Array<String> = []
 
   totalPages = 1;
   page = 0;
@@ -24,11 +25,8 @@ export class BrowserComponent implements OnInit {
   ngOnInit() {
   }
 
-  getThumbnail(index: number): string {
-    if (index < this.images.length) {
-      return this.images[index].urls['604'];
-    }
-    return null;
+  getThumbnail(image: Image): string {
+    return image.urls['604'];
   }
 
   getLargeImage(index: number): string {
@@ -53,6 +51,7 @@ export class BrowserComponent implements OnInit {
       this.galleryService.getImages(this.groupId, n * 100)
         .subscribe(res => {
           this.images = res.images;
+          this.thumbnails = res.images.map(i => this.getThumbnail(i));
           console.log(n);
           if (n + 1 > this.totalPages) {
             this.totalPages = n + 1

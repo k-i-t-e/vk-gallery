@@ -7,18 +7,8 @@
   border: 1px solid #dddddd;
 }
 
-.img img {
-  height: 200px;
-  width: 100%;
-  object-fit: cover;
-}
-
 .gallery-container {
   padding: 2px;
-}
-
-.gallery-placeholder {
-  height: 80vh;
 }
 
 .image-modal {

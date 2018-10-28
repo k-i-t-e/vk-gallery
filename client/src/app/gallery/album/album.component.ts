@@ -3,9 +3,9 @@ import {AlbumService} from '../service/album/album.service';
 import {ActivatedRoute} from '@angular/router';
 import {flatMap} from 'rxjs/operators';
 import {Image} from '../entity/Image';
-import {ImageDialogComponent} from "../image-dialog/image-dialog.component";
-import {MatDialog} from "@angular/material";
-import {AppUtils} from "../utils/app-utils.service";
+import {ImageDialogComponent} from '../image-dialog/image-dialog.component';
+import {MatDialog} from '@angular/material';
+import {AppUtils} from '../utils/app-utils.service';
 
 @Component({
   selector: 'app-album',
