@@ -3,7 +3,8 @@
     <div class="col"></div>
 
     <div class="col-7 main gallery-container">
-      <app-thumbnails [thumbnails]="images" [placeholderString]="'No images in this album so far'"></app-thumbnails>
+      <app-thumbnails [thumbnails]="thumbnails" [placeholderString]="'No images in this album so far'"
+                      (thumbnailClick)="openModal($event)"></app-thumbnails>
     </div>
 
     <div class="col"></div>

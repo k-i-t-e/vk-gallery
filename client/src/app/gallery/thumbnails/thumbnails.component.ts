@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AppUtils} from '../utils/app-utils.service';
 
 @Component({
@@ -9,6 +9,8 @@ import {AppUtils} from '../utils/app-utils.service';
 export class ThumbnailsComponent implements OnInit {
   @Input() thumbnails: Array<String>;
   @Input() placeholderString: string;
+  @Output() thumbnailClick = new EventEmitter<Number>();
+
   constructor(public appUtils: AppUtils) { }
 
   ngOnInit() {

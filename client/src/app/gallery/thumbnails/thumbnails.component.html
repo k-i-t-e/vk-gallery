@@ -7,6 +7,6 @@
 </div>
 <div class="row no-gutters" *ngFor="let i of appUtils.getRange(thumbnails.length / 4)">
   <div class="col img" *ngFor="let j of [0, 1, 2, 3]">
-    <img class="img-fluid" *ngIf="thumbnails[i * 4 + j]" [src]="thumbnails[i * 4 + j]">
+    <img class="img-fluid" *ngIf="thumbnails[i * 4 + j]" [src]="thumbnails[i * 4 + j]" (click)="thumbnailClick.emit(i * 4 + j)">
   </div>
 </div>
