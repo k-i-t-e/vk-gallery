@@ -3,7 +3,7 @@
     <div class="col"></div>
     <div class="col-5 main gallery-container">
 
-      <div class="row no-gutters mt-2 pl-2 pr-2" *ngFor="let group of favourites">
+      <div class="row no-gutters mt-2 pl-2 pr-2 vk-group" *ngFor="let group of favourites" (click)="openGroup(group)">
         <div class="col-auto text-center">
           <img class="rounded-circle" [src]="group.imageUrl">
         </div>
@@ -13,7 +13,7 @@
         </div>
       </div>
 
-      <div class="row no-gutters mt-2 pl-2 pr-2" *ngFor="let group of allGroups">
+      <div class="row no-gutters mt-2 pl-2 pr-2 vk-group" *ngFor="let group of allGroups" (click)="openGroup(group)">
         <div class="col-auto text-center">
             <img class="rounded-circle" [src]="group.imageUrl">
         </div>

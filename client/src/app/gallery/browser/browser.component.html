@@ -3,7 +3,10 @@
     <div class="col"></div>
     <div class="col-7 main gallery-container">
 
-      <app-browser-controls (pageSelected)="onPageSelected($event)" [totalPages]="totalPages" (browse)="onBrowse($event)"></app-browser-controls>
+      <app-browser-controls (pageSelected)="onPageSelected($event)"
+                            [totalPages]="totalPages"
+                            (browse)="onBrowse($event)"
+                            [(groupId)]="groupId"></app-browser-controls>
       <app-thumbnails [thumbnails]="thumbnails" [placeholderString]="'Please enter a Group ID'"
                       (thumbnailClick)="openModal($event)"></app-thumbnails>
     </div>

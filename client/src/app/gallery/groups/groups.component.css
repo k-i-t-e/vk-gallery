@@ -27,3 +27,7 @@ img {
 .fav-btn-fav {
   color: gold;
 }
+
+.vk-group {
+  cursor: pointer;
+}

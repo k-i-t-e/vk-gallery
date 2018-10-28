@@ -21,7 +21,9 @@ export class BrowserControlsComponent implements OnInit {
   showLast = false;
 
   // Search form fields
-  groupId: string;
+  @Input() groupId: string;
+  @Output() groupIdChange = new EventEmitter<String>();
+
   @Output() browse = new EventEmitter<String>();
 
   ngOnInit() {
@@ -44,6 +46,7 @@ export class BrowserControlsComponent implements OnInit {
   public browseClick() {
     if (this.groupId && this.groupId.length > 0) {
       this.browse.emit(this.groupId);
+      this.groupIdChange.emit(this.groupId);
     }
   }
 

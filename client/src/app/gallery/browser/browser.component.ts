@@ -13,7 +13,7 @@ import {ActivatedRoute} from '@angular/router';
 })
 export class BrowserComponent implements OnInit {
   images: Array<Image> = [];
-  thumbnails: Array<String> = []
+  thumbnails: Array<String> = [];
 
   totalPages = 1;
   page = 0;
@@ -23,6 +23,12 @@ export class BrowserComponent implements OnInit {
               private dialog: MatDialog, private route: ActivatedRoute) { }
 
   ngOnInit() {
+    this.route.params.subscribe(params => {
+      if (params.id) {
+        this.onBrowse(params.id)
+        this.groupId = params.id
+      }
+    });
   }
 
   getThumbnail(image: Image): string {

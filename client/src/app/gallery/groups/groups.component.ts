@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {GroupService} from '../service/group/group.service';
 import {Group} from '../entity/Group';
 import {flatMap} from "rxjs/operators";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-groups',
@@ -12,7 +13,7 @@ export class GroupsComponent implements OnInit {
   favourites: Array<Group> = [];
   allGroups: Array<Group> = [];
 
-  constructor(private groupService: GroupService) { }
+  constructor(private groupService: GroupService, private router: Router) { }
 
   ngOnInit() {
     this.groupService.getGroups()
@@ -34,5 +35,9 @@ export class GroupsComponent implements OnInit {
       this.favourites = res.favourites;
       this.allGroups = res.allGroups
     })
+  }
+
+  public openGroup(group: Group) {
+    this.router.navigateByUrl(`/gallery/${group.domain ? group.domain : group.id}`)
   }
 }
